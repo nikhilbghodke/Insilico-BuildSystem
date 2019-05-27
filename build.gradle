@@ -1,0 +1,93 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.10.0'
+}
+
+group 'plugindev'
+version '1.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+pluginBundle {
+    website ='https://github.com/niikhilghodke/Insilico-BuildSystem'
+    vcsUrl = 'https://github.com/niikhilghodke/Insilico-BuildSystem'
+    tags = ['OSGi', 'Equinox']
+}
+
+gradlePlugin {
+    plugins {
+        greetingsPlugin {
+            id = 'Insilico.Build.System'
+            displayName = 'OSGi Build Plugin'
+            description = 'Plugin for defining and aunching Equinox Application'
+            implementationClass = 'Insilico.Build.System.CustomExtension'
+        }
+    }
+}
+/*
+Practise for extensions
+
+apply plugin: newPlugin
+
+class Features{
+    String msg
+    String greeter
+}
+
+class newPlugin implements Plugin<Project>
+{
+    void apply (Project project)
+    {
+       def exto= project.extensions.create('feature',Features)
+            project.task('hibol',type: ShowDate) {
+                dependsOn = ['clean', 'build']
+            }
+        exto.msg="Predefined"
+        exto.greeter="Nikgil"
+            project.task('hi')
+                    {
+                        doLast{
+
+                            println exto.msg
+                        }
+                    }
+        
+    }
+}
+
+class ShowDate extends DefaultTask {
+
+    String dateMessage = 'Current date: '
+    void setAction( String a)
+    {
+        this.dateMessage=a
+    }
+
+
+    @TaskAction
+    def showDate() {
+        def ext = project.getExtensions().findByName("feature")
+        println ""
+        println dateMessage + new Date()
+        println project.getTasksByName('hibol',false)
+    }
+}
+
+hibol{
+   // dateMessage ' Aaj ki date hai '
+//    feature{
+//        msg="great work"
+//        greeter="Roman"
+//        }
+}
+
+*/
