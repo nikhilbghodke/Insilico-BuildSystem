@@ -15,6 +15,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - gradle test
-  - gradle build 
+  -  gradle wrapper --gradle-version 5.0 --distribution-type all
+  - ./gradlew test
+  - ./gradlew build 
 

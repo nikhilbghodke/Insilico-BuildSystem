@@ -1,8 +1,8 @@
--classpath 'C:\\Users\\nikhil\\IdeaProjects\\12\\build\\classes\\java\\main;C:\\Users\\nikhil\\IdeaProjects\\12\\build\\resources\\main;C:\\Users\\nikhil\\.gradle\\caches\\5.4.1\\generated-gradle-jars\\gradle-api-5.4.1.jar;C:\\Gradle\\lib\\groovy-all-1.0-2.5.4.jar;C:\\Gradle\\lib\\gradle-installation-beacon-5.4.1.jar'
--d 'C:\\Users\\nikhil\\IdeaProjects\\12\\build\\docs\\javadoc'
+-classpath 'C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\build\\classes\\java\\main;C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\build\\resources\\main;C:\\Users\\nikhil\\.gradle\\caches\\5.0\\generated-gradle-jars\\gradle-api-5.0.jar;C:\\Users\\nikhil\\.gradle\\wrapper\\dists\\gradle-5.0-all\\4mxuau4c77thx8zlvtz4xiez7\\gradle-5.0\\lib\\groovy-all-1.0-2.5.4.jar;C:\\Users\\nikhil\\.gradle\\wrapper\\dists\\gradle-5.0-all\\4mxuau4c77thx8zlvtz4xiez7\\gradle-5.0\\lib\\gradle-installation-beacon-5.0.jar'
+-d 'C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\build\\docs\\javadoc'
 -doctitle '12 1.0.1 API'
 -quiet 
 -windowtitle '12 1.0.1 API'
-'C:\\Users\\nikhil\\IdeaProjects\\12\\src\\main\\java\\Insilico\\Build\\System\\CustomExtension.java'
-'C:\\Users\\nikhil\\IdeaProjects\\12\\src\\main\\java\\Insilico\\Build\\System\\LatestArtifactVersion.java'
-'C:\\Users\\nikhil\\IdeaProjects\\12\\src\\main\\java\\Insilico\\Build\\System\\Library.java'
+'C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\src\\main\\java\\Insilico\\Build\\System\\CustomExtension.java'
+'C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\src\\main\\java\\Insilico\\Build\\System\\LatestArtifactVersion.java'
+'C:\\Users\\nikhil\\IdeaProjects\\Gradle Plugin\\src\\main\\java\\Insilico\\Build\\System\\Library.java'
