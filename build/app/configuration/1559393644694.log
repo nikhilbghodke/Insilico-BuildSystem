@@ -1,0 +1,33 @@
+!SESSION 2019-06-01 18:24:04.328 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=12.0.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Command-line arguments:  -console -consoleLog
+
+!ENTRY org.eclipse.osgi 4 0 2019-06-01 18:24:06.815
+!MESSAGE Bundle org.eclipse.equinox.console-1@start not found.
+
+!ENTRY org.eclipse.osgi 4 0 2019-06-01 18:24:06.815
+!MESSAGE Bundle org.eclipse.osgi-3.@start not found.
+
+!ENTRY org.eclipse.osgi 4 0 2019-06-01 18:24:07.835
+!MESSAGE Bundle osgi.noShutdown=true not found.
+
+!ENTRY org.eclipse.osgi 4 0 2019-06-01 18:24:08.054
+!MESSAGE Could not find bundle: org.eclipse.equinox.console
+!STACK 0
+org.osgi.framework.BundleException: Could not find bundle: org.eclipse.equinox.console
+	at org.eclipse.core.runtime.internal.adaptor.ConsoleManager.checkForConsoleBundle(ConsoleManager.java:61)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.startup(EclipseStarter.java:351)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:251)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.main(EclipseStarter.java:228)
+
+!ENTRY org.eclipse.osgi 4 0 2019-06-01 18:24:08.085
+!MESSAGE Application error
+!STACK 1
+java.lang.IllegalStateException: Unable to acquire application service. Ensure that the org.eclipse.core.runtime bundle is resolved and started (see config.ini).
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:81)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.main(EclipseStarter.java:228)

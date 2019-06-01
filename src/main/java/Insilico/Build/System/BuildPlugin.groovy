@@ -10,7 +10,9 @@ class BuildPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.task('taska',type: LatestArtifactVersion)
+        def destination='build/app'
+        project.task('Insilico',type: LatestArtifactVersion)
+       def ext= project.extensions.create("bundle",BundleExtension)
     }
 }
 

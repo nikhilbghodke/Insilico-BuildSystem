@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Insilico.Build.System.LibraryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-05-27T18:55:41" hostname="DESKTOP-3ASU6QV" time="0.006">
+<testsuite name="Insilico.Build.System.LibraryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-05-30T18:02:27" hostname="DESKTOP-3ASU6QV" time="0.006">
   <properties/>
   <testcase name="testSomeLibraryMethod" classname="Insilico.Build.System.LibraryTest" time="0.006"/>
   <system-out><![CDATA[]]></system-out>
