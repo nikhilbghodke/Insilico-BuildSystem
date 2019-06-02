@@ -43,6 +43,7 @@ Insilico{
     version '1.2.3'
     description 'This will just build a simple osgi application'
     bundle {
+        addBundle("E:/Google summer of code/legacy/equinox confiuration/avishkar.jar")
         addBundle("org.apache.felix","org.apache.felix.gogo.runtime","1.1.2")
         addBundle("org.apache.felix","org.apache.felix.gogo.shell","1.1.2")
         addBundle("org.apache.felix","org.apache.felix.gogo.command","1.0.0")
