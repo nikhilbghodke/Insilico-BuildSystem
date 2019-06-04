@@ -2,7 +2,7 @@ language: java
 install: true
 
 jdk:
-  - openjdk10
+  - openjdk11
 
 
 before_cache:
@@ -15,7 +15,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  -  gradle wrapper --gradle-version 5.0 --distribution-type all
+  -  chmod u+x ./gradlew
   - ./gradlew test
   - ./gradlew build 
 
