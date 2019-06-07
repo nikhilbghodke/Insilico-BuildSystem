@@ -6,6 +6,7 @@ import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
+import org.osgi.framework.Constants
 
 class OsgiBundle extends DefaultTask{
 
@@ -100,8 +101,35 @@ class OsgiBundle extends DefaultTask{
      */
     public void bnd(Map<String, ?> map) {
         this.isInstructionSet=true
+
+        HashMap<String,String> transform=new HashMap<String,String>();
+
+
+        //Add all the Headers that you want to change here before wrting it into maifest file
+        // here along with the constants they are related to
+        transform.put("vendor", Constants.BUNDLE_VENDOR)
+        transform.put("activator",Constants.BUNDLE_ACTIVATOR)
+
+
+        //appending key and values of the map into a string named instructions
         for (String name : map.keySet())
-            instructions=instructions.concat(name+"="+map.get(name)+"\n")
+        {
+            int flag=0
+            //Checks if the Header is present in the transform map
+            for (String key : transform.keySet())
+            {   //If the headers is matched to a key in transform map then the value of key from transformed map is written
+                // is appended to the instructions
+                if(key.compareTo(name)==0)
+                {
+                    instructions=instructions.concat(transform.get(key)+"="+map.get(name)+"\n")
+                    flag=1
+                }
+            }
+            // the match is not found then the then the key and value as appended as it is without any change
+            if(flag==0)
+                instructions=instructions.concat(name+"="+map.get(name)+"\n")
+        }
+
     }
 
     /**
@@ -135,23 +163,23 @@ class OsgiBundle extends DefaultTask{
     @TaskAction
     public something(){
 
-        //Check if the property is set or not if it is set by the user only then
-        //the new task will have have the property as specified by users and if the user does not specify any property
-        //then it will not be set in the new task and will take default task as specified by Bnd Gradle plugin
-        String configure=""
-        if(this.isFromSet)
-            configure=configure.concat("from "+this.getFrom()+"\n")
-        if(this.isInstructionSet)
-            configure=configure.concat("bnd("+this.getBnd()+")\n")
-        if(this.isSourcesetSet)
-            configure=configure.concat("sourceSet = "+this.getSourceSet()+"\n")
-        if(this.isBndfileSet)
-            configure=configure.concat("bndfile = "+this.getBndfile()+"\n")
+
+        //if the property is not set by user then properties are set to their default values
+        // as specified in Bnd Gradle Plugin Documentation
+        if(!this.isInstructionSet)
+            this.instructions=""
+        if(!this.isSourcesetSet)
+            this.sourceSet=project.sourceSets.main
+        if(!isClasspathSet)
+            this.classpath=project.sourceSets.main.compileClasspath
 
 
         // creates and configures a task of type Bundle from bnd Gradle plugin
         project.task("anything",type:aQute.bnd.gradle.Bundle){
-                configure
+                from this.getFrom()
+                bnd(this.getBnd())
+                sourceSet = this.getSourceSet()
+                classpath = this.getClasspath()
             }
 
         //runs the newly created task
