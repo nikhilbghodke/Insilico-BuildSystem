@@ -4,7 +4,9 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.10.0'
     id 'groovy'
     id 'idea'
+    
 }
+
 
 group 'plugindev'
 version '1.1-SNAPSHOT'

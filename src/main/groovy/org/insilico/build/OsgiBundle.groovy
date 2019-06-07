@@ -145,7 +145,7 @@ class OsgiBundle extends DefaultTask{
             configure=configure.concat("bnd("+this.getBnd()+")\n")
         if(this.isSourcesetSet)
             configure=configure.concat("sourceSet = "+this.getSourceSet()+"\n")
-        if(this.isBndfileSetSet)
+        if(this.isBndfileSet)
             configure=configure.concat("bndfile = "+this.getBndfile()+"\n")
 
 
