@@ -1,7 +1,6 @@
-
 package org.insilico.build
 
-class Bundle {
+class ApplicationExtension {
     List<String> toBeCopied = new ArrayList<>();
     List<Download> toBeDownloaded = new ArrayList<>();
 

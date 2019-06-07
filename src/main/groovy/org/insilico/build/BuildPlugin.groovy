@@ -8,7 +8,7 @@ class BuildPlugin implements Plugin<Project> {
     void apply (Project project)
     {
         def dest="build/app"
-        def exto= project.extensions.create('bundle',Bundle)
+        def exto= project.extensions.create('bundle',ApplicationExtension)
         project.task("Insilico"){
             dependsOn 'SetConfiguration'
         }
