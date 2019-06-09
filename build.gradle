@@ -30,7 +30,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         builderPlugin {
-            id = 'org.insilico.builder'
+            id = 'org.insilico.osgi.builder'
             displayName = 'Insilico Build Plugin'
             description = 'Plugin for defining and launching Equinox Application'
             implementationClass = 'org.insilico.build.BuildPlugin'
