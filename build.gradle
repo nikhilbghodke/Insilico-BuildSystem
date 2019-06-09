@@ -8,7 +8,7 @@ plugins {
 }
 
 
-group 'plugindev'
+group 'com.github.niikhilghodke'
 version '1.0.0' +
         ''
 
@@ -34,7 +34,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         greetingsPlugin {
-            id = 'org.insilico.build'
+            id = 'com.github.niikhilghodke'
             displayName = 'Insilico Build Plugin'
             description = 'Plugin for defining and launching Equinox Application'
             implementationClass = 'org.insilico.build.BuildPlugin'
