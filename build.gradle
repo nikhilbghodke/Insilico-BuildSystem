@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.10.0'
     id 'groovy'
@@ -8,9 +7,8 @@ plugins {
 }
 
 
-group 'com.github.niikhilghodke'
-version '1.0.0' +
-        ''
+group 'org.insilico'
+version '1.0.0'
 
 sourceCompatibility = 1.8
 
@@ -19,9 +17,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'biz.aQute.bnd', name: 'biz.aQute.bnd.gradle', version: '4.1.0'
-    //compile group: 'biz.aQute.bnd', name: 'biz.aQute.bndlib', version: '4.1.0'
 
 }
 
@@ -33,8 +29,8 @@ pluginBundle {
 
 gradlePlugin {
     plugins {
-        greetingsPlugin {
-            id = 'com.github.niikhilghodke'
+        builderPlugin {
+            id = 'org.insilico.builder'
             displayName = 'Insilico Build Plugin'
             description = 'Plugin for defining and launching Equinox Application'
             implementationClass = 'org.insilico.build.BuildPlugin'
@@ -42,175 +38,3 @@ gradlePlugin {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/any'
-        }
-    }
-}
-
-
-////Practise for extensions
-
-//
-//
-//Insilico{
-//    description 'This will just build a simple osgi application'
-//    bundle {
-//        addBundle("E:/Google summer of code/legacy/equinox confiuration/avishkar.jar")
-//        addBundle("org.apache.felix","org.apache.felix.gogo.runtime","1.1.2")
-//        addBundle("org.apache.felix","org.apache.felix.gogo.shell","1.1.2")
-//        addBundle("org.apache.felix","org.apache.felix.gogo.command","1.0.0")
-//        addBundle("org.eclipse.platform","org.eclipse.equinox.console","1.3.100")
-//        addBundle("org.eclipse.platform","org.eclipse.osgi","3.13.200")
-//    }
-//}
-//
-//
-//
-//
-////Main plugin class
-//class BuildPlugin implements Plugin<Project>
-//{
-//    void apply (Project project)
-//    {
-//        def dest="build/app"
-//        def exto= project.extensions.create('bundle',Bundle)
-//        project.task("Insilico"){
-//            dependsOn 'SetConfiguration'
-//        }
-//        project.task('CopyBundles',type:Copy)
-//                {
-//                    dependsOn 'SetDependencies'
-//                    from(project.configurations["archives"])
-//                    into("build/app")
-//                }
-//        project.task("SetDependencies",type:SetDependencies)
-//                {
-//                    finalizedBy('build')
-//                }
-//        project.task("SetConfiguration",type:WriteConfiguration)
-//                {
-//                    dependsOn 'CopyBundles'
-//                    ignoreApp "true"
-//                    noShutdown "true"
-//                }
-//}
-//}
-//
-////Set Dependencies of the required bundles into the project
-//class SetDependencies extends DefaultTask {
-//
-//    @TaskAction
-//    public void setDependencies() {
-//        def ext = project.getExtensions().findByName("bundle")
-//
-//        for(int i=0;i<ext.toBeDownloaded.size();i++)
-//        {
-//            project.dependencies{
-//                //println ext.toBeDownloaded[i].group
-//                archives group: ext.toBeDownloaded[i].group, name: ext.toBeDownloaded[i].name, version: ext.toBeDownloaded[i].version
-//            }
-//        }
-//
-//        for(int i=0;i<ext.toBeCopied.size();i++)
-//        {
-//            project.dependencies{
-//                archives project.files(ext.toBeCopied[i])
-//            }
-//        }
-//
-//
-//
-//    }
-//}
-//
-//// Writes the configuration file
-//class WriteConfiguration extends WriteProperties {
-//    private String noShutdown;
-//    private String ignoreApp;
-//    public WriteConfiguration(){
-//        this.outputFile("build/app/configuration/config.ini")
-//        this.noShutdown="true"
-//        this.ignoreApp="true"
-//    }
-//
-//    void noShutdown(String a){
-//        this.noShutdown=a
-//    }
-//
-//    void ignoreApp(String a)
-//    {
-//        this.ignoreApp=a
-//    }
-//    @Override
-//    public void writeProperties() {
-//
-////        // made a directory named configuration if it does not exists
-////        File a = new File("build/app/configuration")
-////        def q=a.mkdir()
-//        String bundles= ""
-//        File app=new File("build/app")
-//        String[] names=app.list()
-//
-//        //getting one string with names of all the bundles
-//        for(int i=0;i<names.length;i++)
-//            if(names[i].compareTo("configuration")!=0)
-//                bundles = bundles.concat(names[i]+"@start,")
-//
-//        //writting the properties in config.iniproperty("eclipse.ignoreApp","true")
-//        property("osgi.noShutdown",this.noShutdown)
-//        property("eclipse.ignoreApp",this.ignoreApp)
-//        property("osgi.bundles",bundles)
-//        super.writeProperties()
-//    }
-//}
-////
-////class we extends WriteProperties{
-////    public we()
-////    {
-////        outputFile('abcde.txt')
-////    }
-////    void likh(String a){
-////        property("is",a)
-////    }
-////    String getis(){
-////        return this.is;
-////    }
-////
-////    @Override
-////    public void writeProperties() {
-////       // outputFile "abcd.txt"
-////        property("name","Vijay")
-////        property("nam1e","Vijay")
-////        super.writeProperties()
-////    }
-////}
-////Used for creating extension for bundles
-//class Bundle {
-//    List<String> toBeCopied = new ArrayList<>();
-//    List<download> toBeDownloaded = new ArrayList<>();
-//
-//    class download {
-//        String group;
-//        String name;
-//        String version;
-//
-//        download(String group, String name, String version) {
-//            this.group = group;
-//            this.name = name;
-//            this.version = version;
-//
-//        }
-//    }
-//
-//    void addBundle(String group, String name, String version) {
-//        this.toBeDownloaded.add(new download(group, name, version));
-//    }
-//
-//    void addBundle(String file) {
-//        this.toBeCopied.add(file);
-//    }
-//}
-//
