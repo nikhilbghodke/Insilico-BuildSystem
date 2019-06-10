@@ -1,196 +1,109 @@
 package org.insilico.build
 
-import org.gradle.api.DefaultTask
+import aQute.bnd.gradle.Bundle
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.TaskAction
-import org.osgi.framework.Constants
 
-class OsgiBundle extends DefaultTask{
+class OsgiBundle extends Bundle{
+    public String name;
+    public String symbolicName;
+    public String vendor
+    public String developer
+    public String license
+    public String version
+    public String contactAddress
+    public String activator
 
-    // the Booleans are used to determine whether the user has specified
-    // any value for the property
+    public OsgiBundle(){
+        super()
+    }
 
-    private Object bndfile
-    private boolean isBndfileSet=false
-
-    private SourceSet sourceSet
-    private boolean isSourcesetSet=false
-
-    private Object from
-    private boolean isFromSet=false
-
-    private Object classpath
-    private boolean isClasspathSet=false
-
-    private String instructions=""
-    private boolean isInstructionSet=false
 
     @Input
-    public Object getFrom(){
-        return this.from
-    }
-
-    public void from(Object a){
-        this.from=a
-        this.isFromSet=true
-    }
-
-    public void setFrom(Object a)
-    {
-        this.from=a
-        this.isFromSet=true
-
-    }
-
-    @InputFile
     @Optional
-    public Object getBndfile() {
-        return bndfile
+    String getSymbolicName() {
+        return symbolicName
     }
 
-    public void bndfile(Object fil) {
-        this.bndfile=fil
-        this.isBndfileSet=true
+    void setSymbolicName(String symbolicName) {
+        this.symbolicName = symbolicName
+        super.convention.plugins.bundle.bnd('Bundle-SymbolicName': this.symbolicName)
     }
 
-    public void setBndfile(Object fil) {
-        this.bndfile=fil
-        this.isBndfileSet=true
-    }
-
-    public void sourceSet(SourceSet sourceSet) {
-        this.sourceSet = sourceSet
-        this.isSourcesetSet=true
-    }
-
-    /**
-     * Get the sourceSet property.
-     */
-    @Input
-    @Optional
-    public SourceSet getSourceSet() {
-        return sourceSet
-    }
-    /**
-     * Set the sourceSet property.
-     */
-    public void setsourceSet(SourceSet sourceSet) {
-        this.sourceSet = sourceSet
-        this.isSourcesetSet=true
+    public void setName(String name){
+        this.name=name
+        super.convention.plugins.bundle.bnd('Bundle-Name': name)
     }
 
     @Input
     @Optional
-    public String getBnd() {
-        return instructions
+    public String getName(String name){
+        return this.name
     }
 
-    /**
-     * Set the bnd property from a map.
-     */
-    public void setBnd(Map<String, ?> map) {
-        bnd(map)
-        this.isInstructionSet=true
-    }
-
-    /**
-     * Add instuctions to the bnd property from a map.
-     */
-    public void bnd(Map<String, ?> map) {
-        this.isInstructionSet=true
-
-        HashMap<String,String> transform=new HashMap<String,String>();
-
-
-        //Add all the Headers that you want to change here before wrting it into maifest file
-        // here along with the constants they are related to
-        transform.put("vendor", Constants.BUNDLE_VENDOR)
-        transform.put("activator",Constants.BUNDLE_ACTIVATOR)
-        transform.put("version",Constants.BUNDLE_VERSION)
-        transform.put("name",Constants.BUNDLE_NAME)
-        transform.put("license",Constants.BUNDLE_LICENSE)
-        transform.put("contactAddress",Constants.BUNDLE_CONTACTADDRESS)
-        transform.put("developer","Bundle-Developer")
-
-
-        //appending key and values of the map into a string named instructions
-        for (String name : map.keySet())
-        {
-            int flag=0
-            //Checks if the Header is present in the transform map
-            for (String key : transform.keySet())
-            {   //If the headers is matched to a key in transform map then the value of key from transformed map is written
-                // is appended to the instructions
-                if(key.compareTo(name)==0)
-                {
-                    instructions=instructions.concat(transform.get(key)+"="+map.get(name)+"\n")
-                    flag=1
-                }
-            }
-            // the match is not found then the then the key and value as appended as it is without any change
-            if(flag==0)
-                instructions=instructions.concat(name+"="+map.get(name)+"\n")
-        }
-
-    }
-
-    /**
-     * Add files to the classpath.
-     *
-     * <p>
-     * The arguments will be handled using
-     * Project.files().
-     */
-    public void classpath(Object... paths) {
-        this.isClasspathSet=true
-        this.classpath=paths
-    }
-
-    /**
-     * Get the classpath property.
-     */
     @Input
     @Optional
-    public Object getClasspath() {
-        return classpath
-    }
-    /**
-     * Set the classpath property.
-     */
-    public void setClasspath(Object path) {
-        this.isClasspathSet=true
-        this.classpath=path
+    String getVendor() {
+        return vendor
     }
 
-    @TaskAction
-    public something(){
+    void setVendor(String vendor) {
+        this.vendor = vendor
+        super.convention.plugins.bundle.bnd('Bundle-Vendor': this.vendor)
+    }
 
+    @Input
+    @Optional
+    String getDeveloper() {
+        return developer
+    }
 
-        //if the property is not set by user then properties are set to their default values
-        // as specified in Bnd Gradle Plugin Documentation
-        if(!this.isInstructionSet)
-            this.instructions=""
-        if(!this.isSourcesetSet)
-            this.sourceSet=project.sourceSets.main
-        if(!isClasspathSet)
-            this.classpath=project.sourceSets.main.compileClasspath
+    void setDeveloper(String developer) {
+        this.developer = developer
+        super.convention.plugins.bundle.bnd('Bundle-Developer': this.developer)
+    }
 
+    @Input
+    @Optional
+    String getLicense() {
+        return license
+    }
 
-        // creates and configures a task of type Bundle from bnd Gradle plugin
-        project.task("anything",type:aQute.bnd.gradle.Bundle){
-                from this.getFrom()
-                bnd(this.getBnd())
-                sourceSet = this.getSourceSet()
-                classpath = this.getClasspath()
-            }
+    void setLicense(String license) {
+        this.license = license
+        super.convention.plugins.bundle.bnd('Bundle-License': this.license)
+    }
 
-        //runs the newly created task
-        project.tasks.anything.copy()
+    @Input
+    @Optional
+    String getVersion() {
+        return version
+    }
 
-        //remove the newly created task from project
-        project.gradle.startParameter.excludedTaskNames.add('anything')
+    void setVersion(String version) {
+        this.version = version
+        super.convention.plugins.bundle.bnd('Bundle-Version': this.version)
+    }
+
+    @Input
+    @Optional
+    String getContactAddress() {
+        return contactAddress
+    }
+
+    void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress
+        super.convention.plugins.bundle.bnd('Bundle-ContactAddress': this.contactAddress)
+    }
+
+    @Input
+    @Optional
+    String getActivator() {
+        return activator
+    }
+
+    void setActivator(String activator) {
+        this.activator = activator
+        super.convention.plugins.bundle.bnd('Bundle-Activator': this.activator)
     }
 }
