@@ -3,6 +3,7 @@ package org.insilico.build
 import aQute.bnd.gradle.Bundle
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.osgi.framework.Constants
 
 class OsgiBundle extends Bundle{
     public String name;
@@ -27,12 +28,12 @@ class OsgiBundle extends Bundle{
 
     void setSymbolicName(String symbolicName) {
         this.symbolicName = symbolicName
-        super.convention.plugins.bundle.bnd('Bundle-SymbolicName': this.symbolicName)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_SYMBOLICNAME+'='+this.symbolicName)
     }
 
     public void setName(String name){
         this.name=name
-        super.convention.plugins.bundle.bnd('Bundle-Name': name)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_NAME+"="+this.name)
     }
 
     @Input
@@ -49,7 +50,7 @@ class OsgiBundle extends Bundle{
 
     void setVendor(String vendor) {
         this.vendor = vendor
-        super.convention.plugins.bundle.bnd('Bundle-Vendor': this.vendor)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_VENDOR+'='+this.vendor)
     }
 
     @Input
@@ -58,9 +59,12 @@ class OsgiBundle extends Bundle{
         return developer
     }
 
+    //i was getting compilation error if constants of Bundle Developer was used
+    // i guess this is something to do with version of bundle(org.osgi.framework)
+    // i will try to fix this issue
     void setDeveloper(String developer) {
         this.developer = developer
-        super.convention.plugins.bundle.bnd('Bundle-Developer': this.developer)
+        super.convention.plugins.bundle.bnd("Bundle-Developers="+this.developer)
     }
 
     @Input
@@ -71,7 +75,7 @@ class OsgiBundle extends Bundle{
 
     void setLicense(String license) {
         this.license = license
-        super.convention.plugins.bundle.bnd('Bundle-License': this.license)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_LICENSE+"="+ this.license)
     }
 
     @Input
@@ -82,7 +86,7 @@ class OsgiBundle extends Bundle{
 
     void setVersion(String version) {
         this.version = version
-        super.convention.plugins.bundle.bnd('Bundle-Version': this.version)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_VERSION+"="+this.version)
     }
 
     @Input
@@ -93,7 +97,7 @@ class OsgiBundle extends Bundle{
 
     void setContactAddress(String contactAddress) {
         this.contactAddress = contactAddress
-        super.convention.plugins.bundle.bnd('Bundle-ContactAddress': this.contactAddress)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_CONTACTADDRESS+"="+this.contactAddress)
     }
 
     @Input
@@ -104,6 +108,6 @@ class OsgiBundle extends Bundle{
 
     void setActivator(String activator) {
         this.activator = activator
-        super.convention.plugins.bundle.bnd('Bundle-Activator': this.activator)
+        super.convention.plugins.bundle.bnd(Constants.BUNDLE_ACTIVATOR+"="+this.activator)
     }
 }
