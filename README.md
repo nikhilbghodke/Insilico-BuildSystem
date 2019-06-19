@@ -30,6 +30,29 @@ plugins {
   id "com.github.niikhilghodke" version "1.0.1"
 }
 ```
+### How to create Osgi bundle
+
+A Custom Task  named `OsgiBundle` can be used to build OSGi bundles. This Custom Task extends Bundle Task defined in Bnd Gradle Plugin, so users are free to use all the properties used inside Bundle Custom Task Defined by Bnd Gradle Plugin. Documentation of which can be found [here](https://github.com/bndtools/bnd/tree/master/biz.aQute.bnd.gradle#create-a-task-of-the-bundle-type). The Osgi Bundle Task defines few extra properties inside it to declare Manifest headers. The Advantage of declaring this property is that user will no longer have to remember OSGi constants for wrting Manifest Headers and Gradle will give you immediate feedback when user mis spells any header, which was not the case with Bundle Task. Here is an example of how to configure the Custom Task
+
+```groovy
+task bundle(type:OsgiBundle){
+    from sourceSets.main.output
+
+    bundleName ="somevalue"
+    symbolicName= ""
+    developer= "Roman"
+    license= "MIT"
+    vendor= "draegerLab"
+    version = "1.1.0"
+    contactAddress= "21b Bakers Street"
+    activator= "com.Insilico.Activator"
+}
+
+```
+bundleName property of Task is used to set `Bundle-Name` Header of Manifest.
+symbolicName property of Task is used to set `Bundle-SymbolicName` Header of Manifest.
+and so on each other property in above above example
+
 ## Developer Documentation
 
 ### How to clone this Repository
