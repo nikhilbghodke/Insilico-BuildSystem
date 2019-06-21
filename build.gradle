@@ -6,8 +6,8 @@ plugins {
     id 'idea'
 }
 
-group 'org.insilico'
-version '1.0.1'
+group 'com.github.niikhilghodke'
+version '1.0.2'
 
 sourceCompatibility = 1.8
 
@@ -30,7 +30,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         builderPlugin {
-            id = 'org.insilico.builder'
+            id = 'com.github.niikhilghodke'
             displayName = 'Insilico Build Plugin'
             description = 'Plugin for defining and launching Equinox Application'
             implementationClass = 'org.insilico.build.BuildPlugin'

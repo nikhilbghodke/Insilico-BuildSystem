@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.github.niikhilghodke" version "1.0.2"
 }
 
 group 'org.insilico.build.examples'
@@ -9,11 +10,14 @@ repositories {
     mavenCentral()
 }
 
+// specify here any dependencies your project has 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group:'org.osgi',name:'org.osgi.framework', version:'1.8.0'
 }
 
+// if your projects convention does not matches the default convention by Java Gradle Plugin, 
+// you can easily change the convention by changing the souresets, as done below
 sourceSets {
     main {
         java {
@@ -22,19 +26,17 @@ sourceSets {
     }
 }
 
-apply plugin: org.insilico.build.BuildPlugin
-
-import org.insilico.build.OsgiBundle
 
 jar{
     from sourceSets.main.output
     bundle{
-            bundleName = "Anything"
-            version =1.0
-            activator= 'com.nikhil.Activator'
-            vendor ="Roman Schulte"
-            license= 'MIT License'
-            developer ='Nikhil Ghodke'
-            contactAddress ="221b Baker St, London"
+            bundleName = "ActivatorBundle"
+            symbolicName = "InsilicoActivator"
+            version = 1.0
+            activator = 'com.nikhil.Activator'
+            vendor = "Roman Schulte"
+            license = 'MIT License'
+            developer = 'Nikhil Ghodke'
+            contactAddress = "221b Baker St, London"
     }
 }
