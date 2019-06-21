@@ -3,9 +3,7 @@ plugins {
 }
 
 group 'org.insilico.build.examples'
-version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -28,16 +26,15 @@ apply plugin: org.insilico.build.BuildPlugin
 
 import org.insilico.build.OsgiBundle
 
-task bundle (type:OsgiBundle){
+jar{
     from sourceSets.main.output
-    bnd('Bundle-SymbolicName': 'MyBundle',
-            'name': 'MyBundle',
-            'version':1.0,
-            'activator': 'com.nikhil.Activator',
-            'vendor':'Roman Schulte',
-            'license':'MIT License',
-            'developer':'Nikhil Ghodke',
-            'contactAddress':"221b Baker St, London",
-            'Bundle-askme':"nikhil")
-
+    bundle{
+            bundleName = "Anything"
+            version =1.0
+            activator= 'com.nikhil.Activator'
+            vendor ="Roman Schulte"
+            license= 'MIT License'
+            developer ='Nikhil Ghodke'
+            contactAddress ="221b Baker St, London"
+    }
 }

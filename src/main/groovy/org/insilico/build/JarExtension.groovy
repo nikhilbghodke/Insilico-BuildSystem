@@ -5,7 +5,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.osgi.framework.Constants
 
-class JarConvention {
+class JarExtension {
     public String bundleName;
     public String symbolicName
     public String vendor
@@ -17,7 +17,7 @@ class JarConvention {
 
     private  Task task;
 
-    public JarConvention(Task task){
+    public JarExtension(Task task){
         this.task=task;
     }
 
@@ -71,6 +71,7 @@ class JarConvention {
         return developer
     }
 
+    //
     void setDeveloper(String developer) {
         this.developer = developer
         task.convention.plugins.bundle.bnd("Bundle-Developers="+this.developer)
@@ -95,7 +96,7 @@ class JarConvention {
 
     void setSymbolicName(String name) {
         this.symbolicName = name
-        task.convention.plugins.bundle.bnd("Bundle-Name":name)
+        task.convention.plugins.bundle.bnd(Constants.BUNDLE_SYMBOLICNAME+"="+this.symbolicName)
     }
 
     @Optional
@@ -106,6 +107,6 @@ class JarConvention {
 
     void setBundleName(String name) {
         this.bundleName = name
+        task.convention.plugins.bundle.bnd(Constants.BUNDLE_NAME+"="+this.bundleName)
     }
-
 }

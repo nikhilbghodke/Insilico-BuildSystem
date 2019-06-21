@@ -11,15 +11,14 @@ class BuildPlugin implements Plugin<Project> {
     {
         project.plugins.apply('biz.aQute.bnd.builder')
 
-        //Adding convention to jar task
         Task jar= project.getTasks().findByName('jar')
-        jar.convention.plugins.insilico= new JarConvention(jar);
+        jar.extensions.bundle= new JarExtension(jar)
         jar.doLast {
             buildBundle()
         }
 
         def dest="build/app"
-        def exto= project.extensions.create('bundle',ApplicationExtension)
+       // def exto= project.extensions.create('bundle',ApplicationExtension)
         project.task("Insilico"){
             dependsOn 'SetConfiguration'
         }
@@ -39,7 +38,5 @@ class BuildPlugin implements Plugin<Project> {
                     ignoreApp "true"
                     noShutdown "true"
                 }
-
-
     }
 }

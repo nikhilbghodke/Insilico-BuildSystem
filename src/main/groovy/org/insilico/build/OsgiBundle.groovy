@@ -6,6 +6,6 @@ class OsgiBundle extends Bundle{
     public OsgiBundle()
     {
         super()
-        this.convention.plugins.insilico=new JarConvention(this)
+        this.extensions.bundle=new JarExtension(this)
     }
 }

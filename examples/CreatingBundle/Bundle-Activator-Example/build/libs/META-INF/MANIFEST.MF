@@ -1,18 +1,17 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1560021199335
+Bnd-LastModified: 1561127761622
 Bundle-Activator: com.nikhil.Activator
-Bundle-askme: nikhil
 Bundle-ContactAddress: 221b Baker St, London
-Bundle-Developer: Nikhil Ghodke
+Bundle-Developers: Nikhil Ghodke
 Bundle-License: MIT License
 Bundle-ManifestVersion: 2
-Bundle-Name: MyBundle
-Bundle-SymbolicName: MyBundle
+Bundle-Name: Bundle-Activator-Example
+Bundle-SymbolicName: Bundle-Activator-Example
 Bundle-Vendor: Roman Schulte
 Bundle-Version: 1.0
 Created-By: 12.0.1 (Oracle Corporation)
 Import-Package: org.osgi.framework;version="[1.8,2)"
 Private-Package: com.nikhil
-Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Require-Capability: osgi.ee;filter:="(osgi.ee=UNKNOWN)"
 Tool: Bnd-4.1.0.201810181252
 
