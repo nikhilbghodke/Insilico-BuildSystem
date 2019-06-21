@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id "com.github.niikhilghodke" version "1.0.2"
+}
+
+group 'org.insilico'
+version '1.0-SNAPSHOT'
+
+import org.insilico.build.OsgiBundle
+
+task bundle(type:OsgiBundle){
+            from sourceSets.main.output
+            bundle{
+                bundleName = "SimpleBundle"
+                symbolicName = "org.insilico.examples.simpleBundle"
+                version = 1.0
+                vendor = "Roman Schulte"
+                license = 'MIT License'
+                developer = 'Nikhil Ghodke'
+                contactAddress = "221b Baker St, London"
+            }
+        }

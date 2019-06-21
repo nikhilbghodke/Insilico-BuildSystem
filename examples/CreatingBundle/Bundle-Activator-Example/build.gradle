@@ -31,7 +31,7 @@ jar{
     from sourceSets.main.output
     bundle{
             bundleName = "ActivatorBundle"
-            symbolicName = "InsilicoActivator"
+            symbolicName = "org.insilico.examples.activator"
             version = 1.0
             activator = 'com.nikhil.Activator'
             vendor = "Roman Schulte"
