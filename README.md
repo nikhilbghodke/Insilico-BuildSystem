@@ -72,6 +72,9 @@ Gradle plugin is nothing but a code Written in JVM Language, so the process is s
 ```bash
 ./gradlew build
 ```
+
+If this doesn't work, you may need to change the permissions for the gradle file before you can run it: `chmod +x gradlew`.
+
 ### Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
