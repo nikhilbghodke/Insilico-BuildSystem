@@ -6,6 +6,7 @@ plugins {
 group 'org.insilico'
 version '1.0-SNAPSHOT'
 
+
 import org.insilico.build.OsgiBundle
 
 task bundle(type: OsgiBundle){

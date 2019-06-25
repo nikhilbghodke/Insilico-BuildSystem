@@ -9,34 +9,24 @@ import org.osgi.framework.Constants
 class BuildPlugin implements Plugin<Project> {
     void apply (Project project)
     {
-        project.plugins.apply('biz.aQute.bnd.builder')
 
+        //applies the base Plugin
+        project.plugins.apply(org.insilico.build.BasePlugin)
+
+        //adds extension named bundle to jar task
         Task jar= project.getTasks().findByName('jar')
         jar.extensions.bundle= new JarExtension(jar)
         jar.doLast {
             buildBundle()
         }
 
-        def dest="build/app"
-       // def exto= project.extensions.create('bundle',ApplicationExtension)
+
+
         project.task("Insilico"){
             dependsOn 'SetConfiguration'
+            dependsOn 'CopyBundles'
         }
-        project.task('CopyBundles',type: Copy)
-                {
-                    dependsOn 'SetDependencies'
-                    from(project.configurations["archives"])
-                    into("build/app")
-                }
-        project.task("SetDependencies",type:SetDependencies)
-                {
-                    finalizedBy('build')
-                }
+        project.task('CopyBundles',type: CopyBundles)
         project.task("SetConfiguration",type:WriteConfiguration)
-                {
-                    dependsOn 'CopyBundles'
-                    ignoreApp "true"
-                    noShutdown "true"
-                }
     }
 }
