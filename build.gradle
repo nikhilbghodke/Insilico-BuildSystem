@@ -55,4 +55,3 @@ gradlePlugin {
     }
 }
 
-//compileTestGroovy.enabled = false
