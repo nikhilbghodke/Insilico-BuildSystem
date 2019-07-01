@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.github.niikhilghodke'
-version '1.0.3'
+version '1.0.5'
 
 sourceCompatibility = 1.8
 
@@ -28,13 +28,24 @@ pluginBundle {
 
 gradlePlugin {
     plugins {
-        builderPlugin {
-            id = 'com.github.niikhilghodke'
-            displayName = 'Insilico Build Plugin'
+        basePlugin {
+            id = 'com.github.niikhilghodke.base'
+            displayName = 'Insilico Base Plugin'
+            description = 'This is the base Plugin for Building Equinox Application, Osgi Bundles and Eclipse Features'
+            implementationClass = 'org.insilico.build.BasePlugin'
+        }
+        bundlebuilderPlugin {
+            id = 'com.github.niikhilghodke.bundleBuilder'
+            displayName = 'Insilico Bundle Builder Plugin'
+            description = 'Plugin for Building Osgi Application'
+            implementationClass = 'org.insilico.build.BundleBuilderPlugin'
+        }
+
+        applicationbuilderPlugin {
+            id = 'com.github.niikhilghodke.applicationBuilder'
+            displayName = 'Insilico Application Builder Plugin'
             description = 'Plugin for defining and launching Equinox Application'
-            implementationClass = 'org.insilico.build.BuildPlugin'
+            implementationClass = 'org.insilico.build.ApplicationBuilderPlugin'
         }
     }
 }
-
-
