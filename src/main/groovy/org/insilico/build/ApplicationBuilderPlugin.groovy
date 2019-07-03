@@ -28,7 +28,7 @@ class ApplicationBuilderPlugin implements Plugin<Project>{
         project.configurations.create("osgiInstall")
 
         project.plugins.apply(org.insilico.build.BasePlugin)
-        project.build{
+        project.task("buildApplication"){
             dependsOn 'setConfiguration'
             dependsOn 'copyBundles'
         }

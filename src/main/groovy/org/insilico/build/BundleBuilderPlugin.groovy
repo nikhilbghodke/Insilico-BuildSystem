@@ -3,6 +3,7 @@ package org.insilico.build
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.plugins.JavaPlugin
 
 /**
  * This Plugin Checks if the {@link aQute.bnd.gradle.BndBuilderPlugin} is applied to the project and if it is applied then adds a new
@@ -31,14 +32,16 @@ class BundleBuilderPlugin implements Plugin<Project> {
 //                buildBundle()
 //            }
 
-        //other approach is to check if Bnd Gradle Plugin is applied by user, and if
+        //other approach is to check if Bnd Gradle Plugin and Java Plugin is applied by user, and if
         // he has applied the Plugin only then add extension to jar task
-        project.plugins.withType(aQute.bnd.gradle.BndBuilderPlugin) {
-            //adds extension named bundle to jar task
-            Task jar = project.getTasks().findByName('jar')
-            jar.extensions.bundle = new JarExtension(jar)
-            jar.doLast {
-                buildBundle()
+        project.plugins.withType(JavaPlugin) {
+            project.plugins.withType(aQute.bnd.gradle.BndBuilderPlugin) {
+                //adds extension named bundle to jar task
+                Task jar = project.getTasks().findByName('jar')
+                jar.extensions.bundle = new JarExtension(jar)
+                jar.doLast {
+                    buildBundle()
+                }
             }
         }
     }

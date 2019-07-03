@@ -19,7 +19,7 @@ class CopyBundles extends Copy {
     public CopyBundles(){
         super()
         this.into("build/app")
-        this.from(project.configurations.osgiRuntime)
+        this.from(project.configurations.osgiInstall)
     }
 
 }
