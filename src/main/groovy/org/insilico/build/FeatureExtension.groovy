@@ -33,6 +33,8 @@ class FeatureExtension {
     public  FeaturePropertyExtension description;
     public  FeaturePropertyExtension copyright;
     public  FeaturePropertyExtension license;
+    public List<FeatureIncludesProperty> includes;
+    public List<FeaturePluginProperty> plugins;
 
     @Input
     @Optional
@@ -129,6 +131,9 @@ class FeatureExtension {
         this.license= new FeaturePropertyExtension()
         this.copyright= new FeaturePropertyExtension()
 
+        this.includes= new ArrayList<>();
+        this.plugins= new ArrayList<>();
+
 
 
        // task.inputs.property('description', { .extensions.description.getUrl() })
@@ -159,6 +164,16 @@ class FeatureExtension {
 
     }
 
+    void includes(String id,String version, @DelegatesTo(FeaturePropertyExtension) Closure configurator) {
+        Closure cfg = configurator.clone()
+        FeatureIncludesProperty newFeature= new FeatureIncludesProperty(id,version)
+        cfg.delegate = newFeature
+        cfg.resolveStrategy = Closure.DELEGATE_FIRST
+        cfg.call()
+
+        this.includes.add(newFeature)
+    }
+
 //    public void description( Action<? super Description> action){
 //        action.execute(description);
 //        //println this.description.n+"was passed";
@@ -178,6 +193,7 @@ class FeatureExtension {
 
 
     public void  writeFile(){
+
 
         String personXMLStringValue = null;
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -292,8 +308,56 @@ class FeatureExtension {
         licenseUrl.setValue(this.license.url)
         license.setAttributeNode(licenseUrl);
 
-        
 
+        //writes all the includes elements with all optional properties
+        for(FeatureIncludesProperty a:this.includes){
+            Element includes = doc.createElement("includes");
+            featureRootElement.appendChild(includes)
+
+            Attr id = doc.createAttribute("id")
+            id.setValue(a.id)
+            includes.setAttributeNode(id);
+
+            Attr version = doc.createAttribute("version")
+            version.setValue(a.version)
+            includes.setAttributeNode(version);
+
+            Attr optional = doc.createAttribute("optional")
+            optional.setValue(a.optional.toString())
+            includes.setAttributeNode(optional)
+
+            if(a.ws.length()!=0){
+                Attr ws = doc.createAttribute("ws")
+                ws.setValue(a.ws)
+                includes.setAttributeNode(ws);
+            }
+
+            if(a.os.length()!=0){
+                Attr os = doc.createAttribute("os")
+                os.setValue(a.os)
+                includes.setAttributeNode(os);
+            }
+
+            if(a.nl.length()!=0){
+                Attr nl = doc.createAttribute("nl")
+                nl.setValue(a.nl)
+                includes.setAttributeNode(nl);
+            }
+
+            if(a.arch.length()!=0){
+                Attr arch = doc.createAttribute("arch")
+                arch.setValue(a.arch)
+                includes.setAttributeNode(arch);
+            }
+
+            if(a.name.length()!=0){
+                Attr name = doc.createAttribute("name")
+                name.setValue(a.name)
+                includes.setAttributeNode(name);
+            }
+
+
+        }
 
 
 
@@ -311,6 +375,42 @@ class FeatureExtension {
         FileWriter a=new FileWriter(this.buildDir)
         a.write(personXMLStringValue)
         a.close()
+    }
+
+
+    public  class FeatureIncludesProperty
+    {
+         public String id="";
+         public String version="0.0.0";
+         public String os="";
+         public String arch="";
+         public String ws="";
+         public String nl="";
+         public String name="";
+        public boolean optional=true;
+
+        FeatureIncludesProperty(String id,String version) {
+            this.id = id
+            this.version=version
+        }
+    }
+
+    public class FeaturePluginProperty {
+        public  boolean fragment=false
+        public  boolean unpack=true
+        public String downloadSize="0"
+        public String installSize="0"
+
+        public String id="";
+        public String version="0.0.0";
+        public String os="";
+        public String arch="";
+        public String ws="";
+        public String nl="";
+
+        FeaturePluginProperty( String id, String version) {
+            super( id, version)
+        }
     }
 }
 
