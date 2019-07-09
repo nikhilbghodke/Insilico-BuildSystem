@@ -11,6 +11,8 @@ import org.junit.rules.TemporaryFolder;
 import org.osgi.framework.Constants;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -26,11 +28,13 @@ public class BundleBuildFunctionalTest {
     @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder();
     private File settingsFile;
     private File buildFile;
+    BufferedReader build;
 
     @Before
     public void setup() throws IOException {
         settingsFile = testProjectDir.newFile("settings.gradle");
         buildFile = testProjectDir.newFile("build.gradle");
+        this.build=new BufferedReader( new FileReader("src/test/resources/applicationBuild"));
     }
 
     @Test
@@ -62,13 +66,23 @@ public class BundleBuildFunctionalTest {
                 "                contactAddress =' "+contactAddress+"'\n" +
                 "             }\n" +
                 "         }";
-        writeFile(buildFile, buildFileContent);
+
+        System.out.println();
+        String st;
+        String ans="";
+        while ((st = build.readLine()) != null)
+            ans=ans+st;
+
+        System.out.println(ans);
+
+        writeFile(buildFile,buildFileContent);
 
         BuildResult result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withPluginClasspath()
                 .withArguments("jar")
                 .build();
+
 
         File testProjectfile = testProjectDir.getRoot();
         String pathOfJar=testProjectfile.getAbsolutePath();

@@ -39,14 +39,14 @@ gradlePlugin {
             description = 'This is the base Plugin for Building Equinox Application, Osgi Bundles and Eclipse Features'
             implementationClass = 'org.insilico.build.BasePlugin'
         }
-        bundlebuilderPlugin {
+        bundleBuilderPlugin {
             id = 'com.github.niikhilghodke.bundleBuilder'
             displayName = 'Insilico Bundle Builder Plugin'
             description = 'Plugin for Building Osgi Application'
             implementationClass = 'org.insilico.build.BundleBuilderPlugin'
         }
 
-        applicationbuilderPlugin {
+        applicationBuilderPlugin {
             id = 'com.github.niikhilghodke.applicationBuilder'
             displayName = 'Insilico Application Builder Plugin'
             description = 'Plugin for defining and launching Equinox Application'

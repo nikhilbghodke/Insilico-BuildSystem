@@ -1,0 +1,16 @@
+
+
+apply plugin: "java"
+
+jar{
+            from sourceSets.main.output
+            bundle{
+                bundleName = "SimpleBundle"
+                symbolicName = "org.insilico.examples.simpleExample"
+                version = 1.2
+                vendor = "Roman Schulte"
+                license = 'MIT License'
+                developer = 'Nikhil Ghodke'
+                contactAddress = "221b Baker St, London"
+            }
+        }
