@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id("biz.aQute.bnd.builder") version "4.1.0"
+    id "com.github.niikhilghodke" version "1.0.2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group:'org.osgi',name:'org.osgi.framework', version:'1.8.0'
+}
+
+//Setting a different Sourceset
+sourceSets {
+    main {
+        java {
+            srcDir 'src/any'
+        }
+    }
+}
+
+jar{
+            from sourceSets.main.output
+            bundle{
+                bundleName = "SimpleBundle"
+                symbolicName = "org.insilico.examples.simpleExample"
+                version = 1.2
+                vendor = "Roman Schulte"
+                license = 'MIT License'
+                developer = 'Nikhil Ghodke'
+                contactAddress = "221b Baker St, London"
+                activator="com.nikhil.Activator"
+            }
+}
