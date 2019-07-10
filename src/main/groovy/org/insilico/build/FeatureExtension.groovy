@@ -10,6 +10,7 @@ import org.w3c.dom.Element
 
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.OutputKeys
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -35,6 +36,9 @@ class FeatureExtension {
     public  FeaturePropertyExtension license;
     public List<FeatureIncludesProperty> includes;
     public List<FeaturePluginProperty> plugins;
+
+    public Document doc;
+    public Element featureRootElement;
 
     @Input
     @Optional
@@ -134,7 +138,13 @@ class FeatureExtension {
         this.includes= new ArrayList<>();
         this.plugins= new ArrayList<>();
 
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+         this.doc = docBuilder.newDocument();
 
+        // Create Person root element
+        this.featureRootElement = doc.createElement("feature")
+        task.extensions.require= new FeatureRequirePropertyExtension(task,featureRootElement,doc)
 
        // task.inputs.property('description', { .extensions.description.getUrl() })
 
@@ -164,7 +174,7 @@ class FeatureExtension {
 
     }
 
-    void includes(String id,String version, @DelegatesTo(FeaturePropertyExtension) Closure configurator) {
+    void includes(String id,String version, Closure configurator) {
         Closure cfg = configurator.clone()
         FeatureIncludesProperty newFeature= new FeatureIncludesProperty(id,version)
         cfg.delegate = newFeature
@@ -173,6 +183,17 @@ class FeatureExtension {
 
         this.includes.add(newFeature)
     }
+
+    void plugin(String id,String version,  Closure configurator) {
+        Closure cfg = configurator.clone()
+        FeaturePluginProperty newPlugin= new FeaturePluginProperty(id,version)
+        cfg.delegate = newPlugin
+        cfg.resolveStrategy = Closure.DELEGATE_FIRST
+        cfg.call()
+
+        this.plugins.add(newPlugin)
+    }
+
 
 //    public void description( Action<? super Description> action){
 //        action.execute(description);
@@ -196,17 +217,8 @@ class FeatureExtension {
 
 
         String personXMLStringValue = null;
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
 
-
-
-
-        // Create Person root element
-        Element featureRootElement = doc.createElement("feature");
-
-
+        this.task.extensions.require.createRequireElement()
 
         //Attributes are added to feature element
         Attr featureVersion = doc.createAttribute("version");
@@ -355,15 +367,76 @@ class FeatureExtension {
                 name.setValue(a.name)
                 includes.setAttributeNode(name);
             }
-
-
         }
 
+
+
+
+        for(FeaturePluginProperty a:this.plugins) {
+            Element plugin = doc.createElement("plugin");
+            featureRootElement.appendChild(plugin)
+
+            Attr id = doc.createAttribute("id")
+            id.setValue(a.id)
+            plugin.setAttributeNode(id);
+
+            Attr version = doc.createAttribute("version")
+            version.setValue(a.version)
+            plugin.setAttributeNode(version);
+
+            Attr fragment = doc.createAttribute("fragment")
+            fragment.setValue(a.fragment.toString())
+            plugin.setAttributeNode(fragment);
+
+            Attr unpack = doc.createAttribute("unpack")
+            unpack.setValue(a.unpack.toString())
+            plugin.setAttributeNode(unpack);
+
+            Attr downloadSize = doc.createAttribute("download-size")
+            downloadSize.setValue(a.downloadSize)
+            plugin.setAttributeNode(downloadSize);
+
+            Attr installSize = doc.createAttribute("install-size")
+            installSize.setValue(a.installSize)
+            plugin.setAttributeNode(installSize);
+
+
+            if(a.ws.length()!=0){
+                Attr ws = doc.createAttribute("ws")
+                ws.setValue(a.ws)
+                plugin.setAttributeNode(ws);
+            }
+
+            if(a.os.length()!=0){
+                Attr os = doc.createAttribute("os")
+                os.setValue(a.os)
+                plugin.setAttributeNode(os);
+            }
+
+            if(a.nl.length()!=0){
+                Attr nl = doc.createAttribute("nl")
+                nl.setValue(a.nl)
+                plugin.setAttributeNode(nl);
+            }
+
+            if(a.arch.length()!=0){
+                Attr arch = doc.createAttribute("arch")
+                arch.setValue(a.arch)
+                plugin.setAttributeNode(arch);
+            }
+
+        }
 
 
         // Transform Document to XML String
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
+
+        //just for identation
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+
         StringWriter writer = new StringWriter();
         transformer.transform(new DOMSource(doc), new StreamResult(writer));
         // Get the String value of final xml document
@@ -409,8 +482,8 @@ class FeatureExtension {
         public String nl="";
 
         FeaturePluginProperty( String id, String version) {
-            super( id, version)
+            this.version=version
+            this.id=id
         }
     }
 }
-
