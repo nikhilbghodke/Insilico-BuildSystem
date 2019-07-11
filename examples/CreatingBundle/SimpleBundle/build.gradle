@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.niikhilghodke" version "1.0.2"
+    id "com.github.niikhilghodke.bundleBuilder" version "1.0.7"
 }
 
 group 'org.insilico'
