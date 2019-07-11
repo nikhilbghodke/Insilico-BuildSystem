@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.github.niikhilghodke'
-version '1.0.6'
+version '1.0.7'
 
 sourceCompatibility = 1.8
 
@@ -51,6 +51,12 @@ gradlePlugin {
             displayName = 'Insilico Application Builder Plugin'
             description = 'Plugin for defining and launching Equinox Application'
             implementationClass = 'org.insilico.build.ApplicationBuilderPlugin'
+        }
+        featureBuilderPlugin {
+            id = 'com.github.niikhilghodke.featureBuilder'
+            displayName = 'Insilico Feature Builder Plugin'
+            description = 'Plugin for building Eclipse Features'
+            implementationClass = 'org.insilico.build.FeatureBuilderPlugin'
         }
     }
 }

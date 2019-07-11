@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id("biz.aQute.bnd.builder") version "4.1.0"
-    id "com.github.niikhilghodke" version "1.0.2"
+    id "com.github.niikhilghodke.bundleBuilder" version "1.0.7"
 }
 
 repositories {
