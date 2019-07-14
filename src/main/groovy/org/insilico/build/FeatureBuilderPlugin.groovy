@@ -11,7 +11,7 @@ class FeatureBuilderPlugin implements Plugin<Project>  {
 
 
         jar.doLast {
-            jar.extensions.feature.writeFile()
+            jar.extensions.feature.createFeatureArchive()
         }
     }
 }

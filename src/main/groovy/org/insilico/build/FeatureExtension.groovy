@@ -17,28 +17,62 @@ import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
 class FeatureExtension {
-    private Task task;
-    public File buildDir= new File("feature.xml");
+    private Task task
+    public File buildDir = new File("build/features/feature.xml")
 
 
     //ids of feature element
-    public String version;
-    public String id;
-    public String providerName;
-    public String label;
-    public String os;
-    public String arch;
-    public String ws;
-    public String nl;
+    public String version
+    public String id
+    public String providerName
+    public String label
+    public String os
+    public String arch
+    public String ws
+    public String nl
 
-    public  FeaturePropertyExtension description;
-    public  FeaturePropertyExtension copyright;
-    public  FeaturePropertyExtension license;
-    public List<FeatureIncludesProperty> includes;
-    public List<FeaturePluginProperty> plugins;
+    public FeaturePropertyExtension description
+    public FeaturePropertyExtension copyright
+    public FeaturePropertyExtension license
+    public List<FeatureIncludesProperty> includes
+    public List<FeaturePluginProperty> plugins
 
-    public Document doc;
-    public Element featureRootElement;
+    public Document doc
+    public Element featureRootElement
+
+
+    FeatureExtension(Task task) {
+        this.task = task
+        this.providerName = ""
+        this.label = ""
+        this.os = ""
+        this.arch = ""
+        this.ws = ""
+        this.nl = ""
+        this.version = ""
+        this.id = ""
+
+        this.description = new FeaturePropertyExtension()
+        this.license = new FeaturePropertyExtension()
+        this.copyright = new FeaturePropertyExtension()
+
+        this.includes = new ArrayList<>()
+        this.plugins = new ArrayList<>()
+
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance()
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder()
+        this.doc = docBuilder.newDocument()
+
+        // Create Person root element
+        this.featureRootElement = doc.createElement("feature")
+        task.extensions.require = new FeatureRequirePropertyExtension(task, featureRootElement, doc)
+
+        // task.inputs.property('description', { .extensions.description.getUrl() })
+        task.destinationDirectory = new File("build/libs")
+
+        task.from this.buildDir
+
+    }
 
     @Input
     @Optional
@@ -120,37 +154,9 @@ class FeatureExtension {
         this.id = id
     }
 
-    public FeatureExtension(Task task){
-        this.task=task;
-        this.version=task.getProject().version;
-        this.id=task.getProject().name;
-        this.providerName="";
-        this.label="";
-        this.os=""
-        this.arch=""
-        this.ws=""
-        this.nl=""
 
-        this.description= new FeaturePropertyExtension()
-        this.license= new FeaturePropertyExtension()
-        this.copyright= new FeaturePropertyExtension()
 
-        this.includes= new ArrayList<>();
-        this.plugins= new ArrayList<>();
-
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-         this.doc = docBuilder.newDocument();
-
-        // Create Person root element
-        this.featureRootElement = doc.createElement("feature")
-        task.extensions.require= new FeatureRequirePropertyExtension(task,featureRootElement,doc)
-
-       // task.inputs.property('description', { .extensions.description.getUrl() })
-
-    }
-
-    void description( @DelegatesTo(FeaturePropertyExtension) Closure configurator) {
+    void description(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = description
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
@@ -158,7 +164,7 @@ class FeatureExtension {
 
     }
 
-    void copyright( @DelegatesTo(FeaturePropertyExtension) Closure configurator) {
+    void copyright(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = copyright
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
@@ -166,7 +172,7 @@ class FeatureExtension {
 
     }
 
-    void license( @DelegatesTo(FeaturePropertyExtension) Closure configurator) {
+    void license(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = license
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
@@ -174,9 +180,9 @@ class FeatureExtension {
 
     }
 
-    void includes(String id,String version, Closure configurator) {
+    void includes(String id, String version, Closure configurator) {
         Closure cfg = configurator.clone()
-        FeatureIncludesProperty newFeature= new FeatureIncludesProperty(id,version)
+        FeatureIncludesProperty newFeature = new FeatureIncludesProperty(id, version)
         cfg.delegate = newFeature
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
         cfg.call()
@@ -184,9 +190,9 @@ class FeatureExtension {
         this.includes.add(newFeature)
     }
 
-    void plugin(String id,String version,  Closure configurator) {
+    void plugin(String id, String version, Closure configurator) {
         Closure cfg = configurator.clone()
-        FeaturePluginProperty newPlugin= new FeaturePluginProperty(id,version)
+        FeaturePluginProperty newPlugin = new FeaturePluginProperty(id, version)
         cfg.delegate = newPlugin
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
         cfg.call()
@@ -201,7 +207,6 @@ class FeatureExtension {
 //    }
 
 
-
 //    void plugin( String plugin,@DelegatesTo(PlainObject) Closure configurator) {
 //        Closure cfg = configurator.clone()
 //        cfg.delegate = description
@@ -213,277 +218,292 @@ class FeatureExtension {
 //    }
 
 
-    public void  writeFile(){
+    void writeFile() {
 
 
-        String personXMLStringValue = null;
+        String personXMLStringValue = null
 
         this.task.extensions.require.createRequireElement()
 
         //Attributes are added to feature element
-        Attr featureVersion = doc.createAttribute("version");
+        if (this.version.length() == 0) {
+            this.version = task.getProject().version
+        }
+        if (this.id.length() == 0) {
+            this.id = task.getProject().name
+        }
+
+
+        Attr featureVersion = doc.createAttribute("version")
         featureVersion.setValue(this.version)
-        featureRootElement.setAttributeNode(featureVersion);
+        featureRootElement.setAttributeNode(featureVersion)
 
-        Attr featureId = doc.createAttribute("id");
+        Attr featureId = doc.createAttribute("id")
         featureId.setValue(this.id)
-        featureRootElement.setAttributeNode(featureId);
+        featureRootElement.setAttributeNode(featureId)
 
-        if(this.label.length()!=0) {
-            Attr featureLabel = doc.createAttribute("label");
+        if (this.label.length() != 0) {
+            Attr featureLabel = doc.createAttribute("label")
             featureLabel.setValue(this.label)
-            featureRootElement.setAttributeNode(featureLabel);
+            featureRootElement.setAttributeNode(featureLabel)
         }
 
-        if(this.providerName.length()!=0) {
-            Attr featureProviderName = doc.createAttribute("provider-name");
+        if (this.providerName.length() != 0) {
+            Attr featureProviderName = doc.createAttribute("provider-name")
             featureProviderName.setValue(this.providerName)
-            featureRootElement.setAttributeNode(featureProviderName);
+            featureRootElement.setAttributeNode(featureProviderName)
         }
 
-        if(this.os.length()!=0) {
+        if (this.os.length() != 0) {
             Attr featureOs = doc.createAttribute("os")
             featureOs.setValue(this.os)
             featureRootElement.setAttributeNode(featureOs)
         }
 
-        if(this.ws.length()!=0) {
-            Attr featureWs = doc.createAttribute("ws");
+        if (this.ws.length() != 0) {
+            Attr featureWs = doc.createAttribute("ws")
             featureWs.setValue(this.providerName)
             featureRootElement.setAttributeNode(featureWs)
         }
 
-        if(this.arch.length()!=0) {
+        if (this.arch.length() != 0) {
             Attr featureArch = doc.createAttribute("arch")
             featureArch.setValue(this.providerName)
-            featureRootElement.setAttributeNode(featureArch);
+            featureRootElement.setAttributeNode(featureArch)
         }
 
 
         //feature element added to document
-        doc.appendChild(featureRootElement);
-
-
-
-
+        doc.appendChild(featureRootElement)
 
 
         //if context is not set, it set to default value as per in eclipse IDE
-        if(this.description.context.length()==0)
-            description.context="[Enter Feature Description here.]"
+        if (this.description.context.length() == 0)
+            description.context = "[Enter Feature Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if(this.description.url.length()==0)
-            description.url="http://www.example.com/description"
+        if (this.description.url.length() == 0)
+            description.url = "http://www.example.com/description"
 
 
         // Create Description Element
-        Element description = doc.createElement("description");
-        description.appendChild(doc.createTextNode(this.description.context));
-        featureRootElement.appendChild(description);
+        Element description = doc.createElement("description")
+        description.appendChild(doc.createTextNode(this.description.context))
+        featureRootElement.appendChild(description)
 
         Attr descriptionUrl = doc.createAttribute("url")
         descriptionUrl.setValue(this.description.url)
-        description.setAttributeNode(descriptionUrl);
+        description.setAttributeNode(descriptionUrl)
 
 
         //if context is not set, it set to default value as per in eclipse IDE
-        if(this.copyright.context.length()==0)
-            copyright.context="[Enter Copyright Description here.]"
+        if (this.copyright.context.length() == 0)
+            copyright.context = "[Enter Copyright Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if(this.copyright.url.length()==0)
-            description.url="http://www.example.com/copyright"
+        if (this.copyright.url.length() == 0)
+            description.url = "http://www.example.com/copyright"
 
-        Element copyright = doc.createElement("copyright");
-        copyright.appendChild(doc.createTextNode(this.copyright.context));
-        featureRootElement.appendChild(copyright);
+        Element copyright = doc.createElement("copyright")
+        copyright.appendChild(doc.createTextNode(this.copyright.context))
+        featureRootElement.appendChild(copyright)
 
         Attr copyrightUrl = doc.createAttribute("url")
         copyrightUrl.setValue(this.copyright.url)
-        copyright.setAttributeNode(copyrightUrl);
+        copyright.setAttributeNode(copyrightUrl)
 
         //if context is not set, it set to default value as per in eclipse IDE
-        if(this.license.context.length()==0)
-            license.context="[Enter License Description here.]"
+        if (this.license.context.length() == 0)
+            license.context = "[Enter License Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if(this.license.url.length()==0)
-            license.url="http://www.example.com/copyright"
+        if (this.license.url.length() == 0)
+            license.url = "http://www.example.com/copyright"
 
 
-        Element license = doc.createElement("license");
-        license.appendChild(doc.createTextNode(this.license.context));
-        featureRootElement.appendChild(license);
+        Element license = doc.createElement("license")
+        license.appendChild(doc.createTextNode(this.license.context))
+        featureRootElement.appendChild(license)
 
         Attr licenseUrl = doc.createAttribute("url")
         licenseUrl.setValue(this.license.url)
-        license.setAttributeNode(licenseUrl);
+        license.setAttributeNode(licenseUrl)
 
 
         //writes all the includes elements with all optional properties
-        for(FeatureIncludesProperty a:this.includes){
-            Element includes = doc.createElement("includes");
+        for (FeatureIncludesProperty a : this.includes) {
+            Element includes = doc.createElement("includes")
             featureRootElement.appendChild(includes)
 
             Attr id = doc.createAttribute("id")
             id.setValue(a.id)
-            includes.setAttributeNode(id);
+            includes.setAttributeNode(id)
 
             Attr version = doc.createAttribute("version")
             version.setValue(a.version)
-            includes.setAttributeNode(version);
+            includes.setAttributeNode(version)
 
             Attr optional = doc.createAttribute("optional")
             optional.setValue(a.optional.toString())
             includes.setAttributeNode(optional)
 
-            if(a.ws.length()!=0){
+            if (a.ws.length() != 0) {
                 Attr ws = doc.createAttribute("ws")
                 ws.setValue(a.ws)
-                includes.setAttributeNode(ws);
+                includes.setAttributeNode(ws)
             }
 
-            if(a.os.length()!=0){
+            if (a.os.length() != 0) {
                 Attr os = doc.createAttribute("os")
                 os.setValue(a.os)
-                includes.setAttributeNode(os);
+                includes.setAttributeNode(os)
             }
 
-            if(a.nl.length()!=0){
+            if (a.nl.length() != 0) {
                 Attr nl = doc.createAttribute("nl")
                 nl.setValue(a.nl)
-                includes.setAttributeNode(nl);
+                includes.setAttributeNode(nl)
             }
 
-            if(a.arch.length()!=0){
+            if (a.arch.length() != 0) {
                 Attr arch = doc.createAttribute("arch")
                 arch.setValue(a.arch)
-                includes.setAttributeNode(arch);
+                includes.setAttributeNode(arch)
             }
 
-            if(a.name.length()!=0){
+            if (a.name.length() != 0) {
                 Attr name = doc.createAttribute("name")
                 name.setValue(a.name)
-                includes.setAttributeNode(name);
+                includes.setAttributeNode(name)
             }
         }
 
 
-
-
-        for(FeaturePluginProperty a:this.plugins) {
-            Element plugin = doc.createElement("plugin");
+        for (FeaturePluginProperty a : this.plugins) {
+            Element plugin = doc.createElement("plugin")
             featureRootElement.appendChild(plugin)
 
             Attr id = doc.createAttribute("id")
             id.setValue(a.id)
-            plugin.setAttributeNode(id);
+            plugin.setAttributeNode(id)
 
             Attr version = doc.createAttribute("version")
             version.setValue(a.version)
-            plugin.setAttributeNode(version);
+            plugin.setAttributeNode(version)
 
             Attr fragment = doc.createAttribute("fragment")
             fragment.setValue(a.fragment.toString())
-            plugin.setAttributeNode(fragment);
+            plugin.setAttributeNode(fragment)
 
             Attr unpack = doc.createAttribute("unpack")
             unpack.setValue(a.unpack.toString())
-            plugin.setAttributeNode(unpack);
+            plugin.setAttributeNode(unpack)
 
             Attr downloadSize = doc.createAttribute("download-size")
             downloadSize.setValue(a.downloadSize)
-            plugin.setAttributeNode(downloadSize);
+            plugin.setAttributeNode(downloadSize)
 
             Attr installSize = doc.createAttribute("install-size")
             installSize.setValue(a.installSize)
-            plugin.setAttributeNode(installSize);
+            plugin.setAttributeNode(installSize)
 
 
-            if(a.ws.length()!=0){
+            if (a.ws.length() != 0) {
                 Attr ws = doc.createAttribute("ws")
                 ws.setValue(a.ws)
-                plugin.setAttributeNode(ws);
+                plugin.setAttributeNode(ws)
             }
 
-            if(a.os.length()!=0){
+            if (a.os.length() != 0) {
                 Attr os = doc.createAttribute("os")
                 os.setValue(a.os)
-                plugin.setAttributeNode(os);
+                plugin.setAttributeNode(os)
             }
 
-            if(a.nl.length()!=0){
+            if (a.nl.length() != 0) {
                 Attr nl = doc.createAttribute("nl")
                 nl.setValue(a.nl)
-                plugin.setAttributeNode(nl);
+                plugin.setAttributeNode(nl)
             }
 
-            if(a.arch.length()!=0){
+            if (a.arch.length() != 0) {
                 Attr arch = doc.createAttribute("arch")
                 arch.setValue(a.arch)
-                plugin.setAttributeNode(arch);
+                plugin.setAttributeNode(arch)
             }
 
         }
 
 
         // Transform Document to XML String
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer();
+        TransformerFactory tf = TransformerFactory.newInstance()
+        Transformer transformer = tf.newTransformer()
 
         //just for identation
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes")
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
 
 
-        StringWriter writer = new StringWriter();
-        transformer.transform(new DOMSource(doc), new StreamResult(writer));
+        StringWriter writer = new StringWriter()
+        transformer.transform(new DOMSource(doc), new StreamResult(writer))
         // Get the String value of final xml document
-        personXMLStringValue = writer.getBuffer().toString();
+        personXMLStringValue = writer.getBuffer().toString()
 
-        System.out.println(personXMLStringValue);
-        System.out.println("Done creating XML File");
+        System.out.println(personXMLStringValue)
+        System.out.println("Done creating XML File")
 
-        FileWriter a=new FileWriter(this.buildDir)
+        FileWriter a = new FileWriter(this.buildDir)
         a.write(personXMLStringValue)
         a.close()
     }
 
 
-    public  class FeatureIncludesProperty
-    {
-         public String id="";
-         public String version="0.0.0";
-         public String os="";
-         public String arch="";
-         public String ws="";
-         public String nl="";
-         public String name="";
-        public boolean optional=true;
+    void createFeatureArchive() {
+        this.writeFile()
+        this.createJar()
+        //task.copy()
+    }
 
-        FeatureIncludesProperty(String id,String version) {
-            this.id = id
-            this.version=version
+    void createJar() {
+        task.configure {
+            //archiveFileName = "my-distribution.zip"
+
         }
     }
 
-    public class FeaturePluginProperty {
-        public  boolean fragment=false
-        public  boolean unpack=true
-        public String downloadSize="0"
-        public String installSize="0"
 
-        public String id="";
-        public String version="0.0.0";
-        public String os="";
-        public String arch="";
-        public String ws="";
-        public String nl="";
+    class FeatureIncludesProperty {
+        public String id = ""
+        public String version = "0.0.0"
+        public String os = ""
+        public String arch = ""
+        public String ws = ""
+        public String nl = ""
+        public String name = ""
+        public boolean optional = true
 
-        FeaturePluginProperty( String id, String version) {
-            this.version=version
-            this.id=id
+        FeatureIncludesProperty(String id, String version) {
+            this.id = id
+            this.version = version
+        }
+    }
+
+    class FeaturePluginProperty {
+        public boolean fragment = false
+        public boolean unpack = true
+        public String downloadSize = "0"
+        public String installSize = "0"
+
+        public String id = ""
+        public String version = "0.0.0"
+        public String os = ""
+        public String arch = ""
+        public String ws = ""
+        public String nl = ""
+
+        FeaturePluginProperty(String id, String version) {
+            this.version = version
+            this.id = id
         }
     }
 }
