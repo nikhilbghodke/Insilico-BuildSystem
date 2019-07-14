@@ -1,10 +1,12 @@
 plugins {
     id 'java'
-    id "com.github.niikhilghodke.featureBuilder" version "1.0.7"
+    id "com.github.niikhilghodke.featureBuilder" version "1.0.20"
 }
 
 group 'org.insilico'
 version '1.0-SNAPSHOT'
+
+import org.insilico.build.EquinoxFeature
 task feature(type: EquinoxFeature){
 
         feature{
@@ -50,11 +52,17 @@ task feature(type: EquinoxFeature){
 
             }
 
-            require{
-                importPlugin("nikhilKaplugin")
-                importFeature("org.eclipse.cvs","1.4.900.v20190605-1800")
-                importFeature("org.eclipse","1.4.900")
-
+require{
+                importPlugin("nikhilKaplugin"){
+                    version="1.2.2"
+                    match="perfect"
+                }
+                importFeature("nikhilKaplugin"){
+                    version="1.2.2"
+                    match="perfect"
+                    patch=true
+                }
+               
             }
 
         }

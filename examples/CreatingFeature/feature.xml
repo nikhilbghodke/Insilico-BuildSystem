@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<feature id="org.insilico.examples.simpleBundle" label="this is beatutiful" version="1.0-SNAPSHOT">
+  <requires>
+    <import match="perfect" plugin="nikhilKaplugin" version="1.2.2"/>
+    <import feature="nikhilKaplugin" match="perfect" patch="true" version="1.2.2"/>
+  </requires>
+  <description url="httpsasss">nikhil is gooodss</description>
+  <copyright url="copy">copy is good</copyright>
+  <license url="license">license</license>
+  <includes arch="x86_64" id="org.eclipse.egit.mylyn" nl="ar" optional="true" os="linux,macosx" version="1.2.2" ws="wpf"/>
+  <includes arch="x86_64" id="org.eclipse.e4.rcp.source" nl="ar" optional="true" os="linux,macosx" version="1.2.2" ws="wpf"/>
+  <plugin arch="x86_64" download-size="0" fragment="false" id="org.eclipse.egit.mylyn" install-size="0" nl="ar" os="linux,macosx" unpack="true" version="1.2.2" ws="wpf"/>
+</feature>

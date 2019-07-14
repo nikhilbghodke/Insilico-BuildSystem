@@ -27,6 +27,7 @@ public class EquinoxFeature extends Jar {
     void Feature(){
 
         this.extensions.feature.createFeatureArchive()
+        this.copy()
 
     }
 }

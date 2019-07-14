@@ -69,7 +69,7 @@ class FeatureExtension {
 
         // task.inputs.property('description', { .extensions.description.getUrl() })
         task.destinationDirectory = new File("build/libs")
-
+        boolean featuresMade=new File("build/features").mkdirs();
         task.from this.buildDir
 
     }
