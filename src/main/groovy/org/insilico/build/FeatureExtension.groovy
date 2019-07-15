@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamResult
 
 class FeatureExtension {
     private Task task
-    public File buildDir = new File("build/features/feature.xml")
+    private String buildDir = "build/features/feature.xml"
 
 
     //ids of feature element
@@ -69,8 +69,9 @@ class FeatureExtension {
 
         // task.inputs.property('description', { .extensions.description.getUrl() })
         task.destinationDirectory = new File("build/libs")
+        boolean buildMade=new File("build").mkdirs();
         boolean featuresMade=new File("build/features").mkdirs();
-        task.from this.buildDir
+        task.from new File(this.buildDir)
 
     }
 
