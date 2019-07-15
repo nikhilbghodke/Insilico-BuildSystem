@@ -33,10 +33,23 @@ class JarExtension {
     /** Used to set Manifest Header Named Bundle-Activator*/
     public String activator
 
+    public String requireBundle
+
     private  Task task;
 
     public JarExtension(Task task){
         this.task=task;
+    }
+
+    @Input
+    @Optional
+    String getRequireBundle() {
+        return requireBundle
+    }
+
+    void setRequireBundle(String requireBundle) {
+        this.requireBundle = requireBundle
+        task.convention.plugins.bundle.bnd(Constants.REQUIRE_BUNDLE+"="+this.requireBundle)
     }
 
     @Optional

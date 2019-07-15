@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.github.niikhilghodke'
-version '1.0.20'
+version '1.0.24'
 
 sourceCompatibility = 1.8
 

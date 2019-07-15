@@ -223,8 +223,6 @@ class FeatureExtension {
 
         String personXMLStringValue = null
 
-        this.task.extensions.require.createRequireElement()
-
         //Attributes are added to feature element
         if (this.version.length() == 0) {
             this.version = task.getProject().version
@@ -449,8 +447,8 @@ class FeatureExtension {
         // Get the String value of final xml document
         personXMLStringValue = writer.getBuffer().toString()
 
-        System.out.println(personXMLStringValue)
-        System.out.println("Done creating XML File")
+        //System.out.println(personXMLStringValue)
+        //System.out.println("Done creating XML File")
 
         FileWriter a = new FileWriter(this.buildDir)
         a.write(personXMLStringValue)
@@ -459,17 +457,16 @@ class FeatureExtension {
 
 
     void createFeatureArchive() {
+        //writes the feature.xml file
         this.writeFile()
-        this.createJar()
-        //task.copy()
+
+        //Writes all the dependencies in require element of feature.xml files
+        this.task.extensions.require.createRequireElement()
+
+        //Writes the manifest file for feature
+        this.task.extensions.require.writeManifestFile()
     }
 
-    void createJar() {
-        task.configure {
-            //archiveFileName = "my-distribution.zip"
-
-        }
-    }
 
 
     class FeatureIncludesProperty {

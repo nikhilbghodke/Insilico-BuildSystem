@@ -1,5 +1,6 @@
 package org.insilico.build
 
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.w3c.dom.Attr
 import org.w3c.dom.Document
@@ -19,6 +20,8 @@ class FeatureRequirePropertyExtension {
         this.plugin = new ArrayList<>()
         this.feature = new ArrayList<>()
         this.doc = doc
+        this.task.inputs.property("plugins",{plugin.toString()})
+        this.task.inputs.property("feature",{feature.toString()})
     }
 
 
@@ -95,11 +98,31 @@ class FeatureRequirePropertyExtension {
                 featurePatch.setValue(a.patch.toString())
                 feature.setAttributeNode(featurePatch)
             }
-
         }
-
     }
 
+    void writeManifestFile(){
+
+        Project project=this.task.getProject()
+
+        this.task.manifest {
+            attributes('Symbolic-Name': project.getName())
+            if(project.getVersion()=="unspecified")
+            attributes('Bundle-Version': project.getVersion())
+        }
+
+        String RequireBundle=""
+        for (Feature a:feature){
+            RequireBundle+=a.id+";bundle-version=\""+a.version+"\",\n "
+        }
+        for (Plugin a:plugin){
+            RequireBundle+=a.id+";bundle-version=\""+a.version+"\",\n "
+        }
+        println("this what should be writen in Manifest file\n"+RequireBundle)
+        this.task.manifest{
+            attributes('Require-Bundle': RequireBundle)
+        }
+    }
 
     private class Plugin {
         public String id = ""
@@ -179,5 +202,4 @@ class FeatureRequirePropertyExtension {
             }
         }
     }
-
 }

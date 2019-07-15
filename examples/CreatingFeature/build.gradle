@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.niikhilghodke.featureBuilder" version "1.0.20"
+    id "com.github.niikhilghodke.featureBuilder" version "1.0.24"
 }
 
 group 'org.insilico'
@@ -53,12 +53,12 @@ task feature(type: EquinoxFeature){
             }
 
 require{
-                importPlugin("nikhilKaplugin"){
+                importPlugin("org.eclipse.egit.mylyn"){
                     version="1.2.2"
                     match="perfect"
                 }
-                importFeature("nikhilKaplugin"){
-                    version="1.2.2"
+                importFeature("org.eclipse.something"){
+                    version="1.2.3"
                     match="perfect"
                     patch=true
                 }
