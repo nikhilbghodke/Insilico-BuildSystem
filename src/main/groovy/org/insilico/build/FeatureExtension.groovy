@@ -433,6 +433,8 @@ class FeatureExtension {
 
         }
 
+        //Writes all the dependencies in require element of feature.xml files
+        this.task.extensions.require.createRequireElement()
 
         // Transform Document to XML String
         TransformerFactory tf = TransformerFactory.newInstance()
@@ -451,6 +453,7 @@ class FeatureExtension {
         //System.out.println(personXMLStringValue)
         //System.out.println("Done creating XML File")
 
+
         FileWriter a = new FileWriter(this.buildDir)
         a.write(personXMLStringValue)
         a.close()
@@ -461,8 +464,7 @@ class FeatureExtension {
         //writes the feature.xml file
         this.writeFile()
 
-        //Writes all the dependencies in require element of feature.xml files
-        this.task.extensions.require.createRequireElement()
+
 
         //Writes the manifest file for feature
         this.task.extensions.require.writeManifestFile()

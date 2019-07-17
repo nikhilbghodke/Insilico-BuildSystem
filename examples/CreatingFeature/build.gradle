@@ -1,12 +1,12 @@
 plugins {
-    id "com.github.niikhilghodke.featureBuilder" version "1.0.27"
+    id "com.github.niikhilghodke.featureBuilder" version "1.0.28"
 }
 
 group 'org.insilico'
 version '1.0-SNAPSHOT'
 
-import org.insilico.build.EquinoxFeature
-task feature(type: EquinoxFeature){
+
+        jar{
 
         feature{
             
