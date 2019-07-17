@@ -1,4 +1,4 @@
-#Activator-Bundle Example
+# Activator-Bundle Example
 
 This is an example project about how to build an OSGi bundle using this plugin. This project builds a Bundle which upon starting in any OSGi framework, will display `Hello Everyone - Bundle is started!!!` message and upon stoping the bundle will display `Goodbye Everyone - Bundle is stoped!!!` message.
 
