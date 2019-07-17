@@ -15,33 +15,87 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+/**
+ * This is the most important class which is used to creating extension which are latter added to `jar` task and
+ * each task of type {@Link EquinoxFeature}. This class defines properties and methods used for writing `feature.xml`
+ * files.
+ * @see EquinoxFeature
+ * @author Nikhil Ghodke
+ * @since @since 2019-07-17
+ */
 
 class FeatureExtension {
+    /**Used to store task object to whic the extension is added*/
     private Task task
+
+    /**This String is used while creating file to store the created feature XML file*/
     private String buildDir = "build/features/feature.xml"
 
 
     //ids of feature element
+    /**Used to configure the version of feature archive*/
     public String version
+
+   /** Used to configure the id of feature*/
     public String id
+
+    /**Used to configure the providerName of feature*/
     public String providerName
+
+    /**Used to write short descriptive label inside the XML file*/
     public String label
+
+    /** Used to set optional property `os` for feature XML file */
     public String os
+
+    /** Used to set optional property `arch` for feature XML file */
     public String arch
+
+    /** Used to set optional property `ws` for feature XML file */
     public String ws
+
+    /** Used to set optional property `nl` for feature XML file */
     public String nl
 
+    /**The object is used by description method to configure the configure the closure and later extract information from
+     * them regarding description
+     * */
     public FeaturePropertyExtension description
+
+    /**The object is used by copyright method to configure the configure the closure and later extract information from
+     * them regarding copyright
+     * */
     public FeaturePropertyExtension copyright
+
+    /**The object is used by license method to configure the configure the closure and later extract information from
+     * them regarding license
+     * */
     public FeaturePropertyExtension license
+
+    /**This List is used to store all the Features that the user wants to include*/
     public List<FeatureIncludesProperty> includes
+    /**This List is used to store all the Pluginss that the user wants to include*/
     public List<FeaturePluginProperty> plugins
 
+    /**The Below properties are used during the XML file creation*/
     public Document doc
     public Element featureRootElement
 
 
+    /**
+     * The constructor does few things
+     * 1) Initializes all the String member used for property setting to ""
+     * 2) Creates all the required instance of {@Link FeaturePropertyExtension}
+     * 3) Initializes Both the lists user for storing information
+     * 4) Creates the Document object and Root elemnt for the XML file to be created
+     * 5) Add another extension named `require` to the task object
+     * 6)Creates `build`, `build/libs` and `build/features` directory (creating directory was necessary or else it
+     * was giving error in some case) and `build/features/feature.xml`.
+     * @param task this object is stored into a private member for further usage
+     */
     FeatureExtension(Task task) {
+
+        //Initializes all the String member used for property setting to ""
         this.task = task
         this.providerName = ""
         this.label = ""
@@ -52,22 +106,27 @@ class FeatureExtension {
         this.version = ""
         this.id = ""
 
+       // Creates all the required instance of {@Link FeaturePropertyExtension}
         this.description = new FeaturePropertyExtension()
         this.license = new FeaturePropertyExtension()
         this.copyright = new FeaturePropertyExtension()
 
+        //Initializes Both the lists user for storing information
         this.includes = new ArrayList<>()
         this.plugins = new ArrayList<>()
 
+        //Creates the document object for xml file
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance()
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder()
         this.doc = docBuilder.newDocument()
-
         // Create Person root element
         this.featureRootElement = doc.createElement("feature")
+
+        //Add another extension named `require` to the task object
         task.extensions.require = new FeatureRequirePropertyExtension(task, featureRootElement, doc)
 
-        // task.inputs.property('description', { .extensions.description.getUrl() })
+        //Creates `build`, `build/libs` and `build/features` directory (creating directory was necessary or else it was giving error in some case)
+        // and `build/features/feature.xml`.
         task.destinationDirectory = new File("build/libs")
         boolean buildMade=new File("build").mkdirs();
         boolean featuresMade=new File("build/features").mkdirs();
@@ -156,7 +215,11 @@ class FeatureExtension {
     }
 
 
-
+/**
+ * This method is used to set all the description related information within the feature.
+ * It uses the description object created within the constructor to extract the information from Closure passed.
+ * @param configurator the closure is used to create a DSL and latter extract information from it within the function
+ */
     void description(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = description
@@ -164,7 +227,11 @@ class FeatureExtension {
         cfg.call()
 
     }
-
+/**
+ * This method is used to set all the copyright related information within the feature.
+ * It uses the copyright object created within the constructor to extract the information from Closure passed.
+ * @param configurator the closure is used to create a DSL and latter extract information from it within the function
+ */
     void copyright(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = copyright
@@ -173,6 +240,11 @@ class FeatureExtension {
 
     }
 
+    /**
+     * This method is used to set all the license related information within the feature.
+     * It uses the license object created within the constructor to extract the information from Closure passed.
+     * @param configurator the closure is used to create a DSL and latter extract information from it within the function
+     */
     void license(@DelegatesTo(FeaturePropertyExtension) Closure configurator) {
         Closure cfg = configurator.clone()
         cfg.delegate = license
@@ -181,6 +253,16 @@ class FeatureExtension {
 
     }
 
+
+    /**
+     *
+     * This methods takes three parameter namely id,version and a Closure which is used to create a object of Class
+     * FeatureIncludesProperty and the created object is then added to list named includes. IN order to resolve the
+     * passed Closure an object of class FeatureIncludesProperty(it is a private inner class)
+     * @param id id of the feature to be included
+     * @param version version of the feature to be included
+     * @param configurator used to pass all the optional information regarding the required feature
+     */
     void includes(String id, String version, Closure configurator) {
         Closure cfg = configurator.clone()
         FeatureIncludesProperty newFeature = new FeatureIncludesProperty(id, version)
@@ -191,6 +273,15 @@ class FeatureExtension {
         this.includes.add(newFeature)
     }
 
+    /**
+     *
+     * This methods takes three parameter namely id,version and a Closure which is used to create a object of Class
+     * FeaturePluginProperty and the created object is then added to list named plugins. In order to resolve the
+     * passed Closure an object of class FeaturePluginProperty(it is a private inner class)
+     * @param id id of the plugin to be included
+     * @param version version of the plugin to be included
+     * @param configurator used to pass all the optional information regarding the required plugin
+     */
     void plugin(String id, String version, Closure configurator) {
         Closure cfg = configurator.clone()
         FeaturePluginProperty newPlugin = new FeaturePluginProperty(id, version)
@@ -201,24 +292,11 @@ class FeatureExtension {
         this.plugins.add(newPlugin)
     }
 
-
-//    public void description( Action<? super Description> action){
-//        action.execute(description);
-//        //println this.description.n+"was passed";
-//    }
-
-
-//    void plugin( String plugin,@DelegatesTo(PlainObject) Closure configurator) {
-//        Closure cfg = configurator.clone()
-//        cfg.delegate = description
-//        cfg.resolveStrategy = Closure.DELEGATE_FIRST
-//        cfg.call()
-//
-//
-//        println( plugin)
-//    }
-
-
+/**
+ * This function simply writes creates a element , adds attributes to them and then adds the created element to
+ * Root Element of the XML file. Before creating the element or attribute, it first checks if it s set by the user, thereby
+ * does not create unncessary elements and attributes in XML file
+ */
     void writeFile() {
 
 
@@ -460,6 +538,13 @@ class FeatureExtension {
     }
 
 
+    /**
+     * This function simply calls two functions
+     * 1) writeFile() :- to write the `feature.xml` file itself
+     * 2) writeManifestFile :- this method from {@Link FeatureRequirePropertyExtension} is used to write manifest file inside the
+     * archives
+     */
+
     void createFeatureArchive() {
         //writes the feature.xml file
         this.writeFile()
@@ -471,7 +556,10 @@ class FeatureExtension {
     }
 
 
-
+/**
+ * This inner Class is used just to create objects inside `includes` method inorder to resolve the passed closure and extract the
+ * required information.This class is o=not used anywhere else.
+ */
     class FeatureIncludesProperty {
         public String id = ""
         public String version = "0.0.0"
@@ -487,7 +575,10 @@ class FeatureExtension {
             this.version = version
         }
     }
-
+/**
+ * This inner Class is used just to create objects inside `plugin` method inorder to resolve the passed closure and extract the
+ * required information. This class is o=not used anywhere else.
+ */
     class FeaturePluginProperty {
         public boolean fragment = false
         public boolean unpack = true

@@ -6,12 +6,23 @@ import org.w3c.dom.Attr
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
+/**
+ * This class is used for create extension for tasks which apply extensions of type {@Link FeatureExtension}
+ * and are used to store properties about dependencies of features and write manifest files
+ */
 class FeatureRequirePropertyExtension {
 
+    /**Used to store task object for internal use*/
     private Task task
+    /**Used to store root element of the Xml file*/
     private Element rootElement
+
+    /**Used to store all plugin dependencies of the feature*/
     private List<Plugin> plugin
+
+    /**Used to store all plugin dependencies of the feature*/
     private List<Feature> feature
+    /**Used to Store the document object to which the XML file is written*/
     private Document doc
 
     FeatureRequirePropertyExtension(Task task, Element rootElement, Document doc) {
