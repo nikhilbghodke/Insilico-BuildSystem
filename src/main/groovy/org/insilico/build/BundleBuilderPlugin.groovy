@@ -22,28 +22,31 @@ class BundleBuilderPlugin implements Plugin<Project> {
 
         //this approach checks if the user has applied the Bnd Gradle Plugin, if not then it applies the plugin
         // and adds extension to jar task
-//        boolean containsBndPlugin =project.plugins.hasPlugin('biz.aQute.bnd.builder')
-//        println containsBndPlugin
-//        if(containsBndPlugin==false)
-//            project.plugins.apply('biz.aQute.bnd.builder')
-//        Task jar = project.getTasks().findByName('jar')
-//            jar.extensions.bundle = new JarExtension(jar)
-//            jar.doLast {
-//                buildBundle()
-//            }
+        boolean containsJavaPlugin =project.plugins.hasPlugin('java')
+        boolean containsBndPlugin =project.plugins.hasPlugin('biz.aQute.bnd.builder')
+        if(containsJavaPlugin==false)
+            project.plugins.apply('java')
+
+        if(containsBndPlugin==false)
+            project.plugins.apply('biz.aQute.bnd.builder')
+        Task jar = project.getTasks().findByName('jar')
+            jar.extensions.bundle = new JarExtension(jar)
+            jar.doLast {
+                buildBundle()
+            }
 
         //other approach is to check if Bnd Gradle Plugin and Java Plugin is applied by user, and if
         // he has applied the Plugin only then add extension to jar task
-        project.plugins.withType(JavaPlugin) {
-            project.plugins.withType(aQute.bnd.gradle.BndBuilderPlugin) {
-                //adds extension named bundle to jar task
-                Task jar = project.getTasks().findByName('jar')
-                jar.extensions.bundle = new JarExtension(jar)
-                jar.doLast {
-                    buildBundle()
-                }
-            }
+//        project.plugins.withType(JavaPlugin) {
+//            project.plugins.withType(aQute.bnd.gradle.BndBuilderPlugin) {
+//                //adds extension named bundle to jar task
+//                Task jar = project.getTasks().findByName('jar')
+//                jar.extensions.bundle = new JarExtension(jar)
+//                jar.doLast {
+//                    buildBundle()
+//                }
+//            }
         }
     }
 
-}
+

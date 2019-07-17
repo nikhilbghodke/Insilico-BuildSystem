@@ -7,7 +7,11 @@ import org.gradle.api.plugins.JavaPlugin
 
 class FeatureBuilderPlugin implements Plugin<Project>  {
     void apply(Project project){
-        project.plugins.withType(JavaPlugin) {
+
+        boolean containsJavaPlugin =project.plugins.hasPlugin('java')
+        if(containsJavaPlugin==false)
+            project.plugins.apply('java')
+
            //adds extension named feature to jar task
             Task jar= project.getTasks().findByName('jar')
             jar.extensions.feature= new FeatureExtension(jar)
@@ -15,7 +19,7 @@ class FeatureBuilderPlugin implements Plugin<Project>  {
                 jar.extensions.feature.createFeatureArchive()
                 jar.copy()
             }
-        }
+
     }
 }
 
