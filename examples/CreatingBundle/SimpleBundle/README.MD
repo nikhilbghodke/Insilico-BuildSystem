@@ -1,4 +1,4 @@
-# Activator-Bundle Example
+# Simple-Bundle Example
 
 This is an example project about how to build an OSGi bundle using the developed plugin.
 The bundle built from this project does do anything upon starting or stoping it, this project just serves an example, so that the user get familiar to the plugin.
