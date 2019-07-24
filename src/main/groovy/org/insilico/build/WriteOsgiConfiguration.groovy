@@ -18,13 +18,14 @@ class WriteOsgiConfiguration extends WriteProperties {
     public String buildDir;
     private static final String OSGI_NO_SHUTDOWN = "osgi.noShutdown";
     private static final String OSGI_BUNDLES = "osgi.bundles";
-
+    private  HashSet<String> toBeStarted;
     public WriteOsgiConfiguration(){
         super()
         this.buildDir = "build/app"
         this.outputFile(buildDir + "/configuration/config.ini")
         this.noShutdown = true
         this.configuration=project.configurations.osgiInstall;
+        this.toBeStarted=new HashSet<>();
 
     }
     /**
@@ -82,6 +83,15 @@ class WriteOsgiConfiguration extends WriteProperties {
         this.buildDir = buildDir
     }
 
+    @Input
+    void startWith(String id){
+        this.toBeStarted.add(id+".jar");
+    }
+    @Input
+    void startWith(String id,String version){
+        this.toBeStarted.add(id+"-"+version+".jar");
+    }
+
     /**
      * Actually writes the properties into the configuration, rest all the function of this class just setting the properties.
      * But this function takes those values and write it to configuration file as specified by buildDir property.
@@ -91,13 +101,17 @@ class WriteOsgiConfiguration extends WriteProperties {
 
         String bundles= ""
         // getting Array of resolved artifacts from osgiRuntime configuration
-        def set = this.configuration.resolvedConfiguration.resolvedArtifacts.toArray()
-
-        //println set.toString()
-
-        // getting one string with names of all the bundles
+        def set = this.configuration.resolvedConfiguration.getFiles().toArray()
+        
         for(def file : set)
-            bundles=bundles+file.name+"@start,"
+        {
+            println( file.name)
+            bundles=bundles+file.name;
+            if(this.toBeStarted.contains(file.name))
+                bundles+="@start";
+            bundles+=","
+        }
+
 
         //writting the properties in config.iniproperty("eclipse.ignoreApp","true")
         outputFile(buildDir+"/configuration/config.ini")

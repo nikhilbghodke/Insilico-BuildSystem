@@ -23,6 +23,8 @@ class FeatureBuilderPlugin implements Plugin<Project>  {
      */
     void apply(Project project){
 
+
+        project.plugins.apply(org.insilico.build.BasePlugin)
         boolean containsJavaPlugin =project.plugins.hasPlugin('java')
         if(containsJavaPlugin==false)
             project.plugins.apply('java')
