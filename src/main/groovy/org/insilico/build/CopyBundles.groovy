@@ -1,7 +1,9 @@
 package org.insilico.build
 
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskAction
 
 /**
  * <p>
@@ -16,10 +18,26 @@ import org.gradle.api.tasks.Input
  */
 
 class CopyBundles extends Copy {
+    private Configuration configuration;
     public CopyBundles(){
         super()
         this.into("build/app")
+        this.configuration=project.configurations.osgiInstall;
         this.from(project.configurations.osgiInstall)
     }
 
+    Configuration getConfiguration() {
+        return configuration
+    }
+
+    void setConfiguration(Configuration configuration) {
+        this.configuration = configuration
+        this.from(configuration)
+    }
+
+    @TaskAction
+    void convert(){
+        super.copy();
+        println( super.getDestinationDir().getAbsoluteFile())
+    }
 }

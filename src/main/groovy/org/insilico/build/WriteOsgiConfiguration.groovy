@@ -102,7 +102,7 @@ class WriteOsgiConfiguration extends WriteProperties {
         String bundles= ""
         // getting Array of resolved artifacts from osgiRuntime configuration
         def set = this.configuration.resolvedConfiguration.getFiles().toArray()
-        
+
         for(def file : set)
         {
             println( file.name)
