@@ -1,11 +1,13 @@
 package org.insilico.build
 
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import org.osgi.framework.Bundle
 
 /**
  * <p>
@@ -45,16 +47,36 @@ class CopyBundles extends Copy {
         super.copy();
         println( super.getDestinationDir().getAbsoluteFile())
         def products = this.extensions.getByName('products')
+        Project project= this.getProject();
         products.each {
-            println( it.name)
-            Task tempTask=this.getProject().tasks.add(it.name+"_copy",Copy);
-            tempTask{
-                def zipFile = file(super.getDestinationDir().getAbsolutePath()+"/"+it.name)
-                def outputDir = file("${buildDir}/unpacked/"+it.name)
+            println(it.name)
+            println(it.version)
+            println(it.toString())
+            Task tempTask=project.task('copyqwet',type:Copy);
+            String jarName= it.name;
+            Object jarVersion=it.version;
+            tempTask.configure{
+                String filename=super.getDestinationDir().getAbsolutePath()+"\\"+jarName;
+                if(jarVersion!="")
+                    filename=filename+"-"+jarVersion;
+                filename=filename+".jar";
 
-                from zipTree(zipFile)
+                println filename
+                def zipFile = project.file(filename)
+                def outputDir = project.file("build/unpacked/"+jarName)
+
+                from project.zipTree(zipFile)
                 into outputDir
             }
+            tempTask.copy()
+
+            tempTask=project.task('wrap',type: aQute.bnd.gradle.Bundle)
+
+            tempTask.configure {
+                from ("build/unpacked/"+jarName)
+            }
+
+            tempTask.copy()
         }
     }
 }

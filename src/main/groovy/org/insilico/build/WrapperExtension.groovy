@@ -28,8 +28,16 @@ class WrapperExtension {
 
     WrapperExtension(String name) {
         this.name = name
-    }
-
+        bundleName="";
+        symbolicName="";
+        vendor="";
+        developer="";
+        license=""
+        version=""
+        contactAddress=""
+        activator=""
+        requireBundle=""
+}
     @Input
     @Optional
     String getRequireBundle() {
