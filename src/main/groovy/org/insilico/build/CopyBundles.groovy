@@ -1,5 +1,7 @@
 package org.insilico.build
 
+import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Input
@@ -19,11 +21,14 @@ import org.gradle.api.tasks.TaskAction
 
 class CopyBundles extends Copy {
     private Configuration configuration;
+    NamedDomainObjectContainer<WrapperExtension> productContainer;
     public CopyBundles(){
         super()
         this.into("build/app")
         this.configuration=project.configurations.osgiInstall;
-        this.from(project.configurations.osgiInstall)
+        this.from(project.configurations.osgiInstall);
+        this.productContainer=project.container(WrapperExtension);
+        this.extensions.add('products', productContainer);
     }
 
     Configuration getConfiguration() {
@@ -39,5 +44,17 @@ class CopyBundles extends Copy {
     void convert(){
         super.copy();
         println( super.getDestinationDir().getAbsoluteFile())
+        def products = this.extensions.getByName('products')
+        products.each {
+            println( it.name)
+            Task tempTask=this.getProject().tasks.add(it.name+"_copy",Copy);
+            tempTask{
+                def zipFile = file(super.getDestinationDir().getAbsolutePath()+"/"+it.name)
+                def outputDir = file("${buildDir}/unpacked/"+it.name)
+
+                from zipTree(zipFile)
+                into outputDir
+            }
+        }
     }
 }
