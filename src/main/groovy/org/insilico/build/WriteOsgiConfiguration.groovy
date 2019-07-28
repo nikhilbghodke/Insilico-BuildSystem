@@ -26,6 +26,7 @@ class WriteOsgiConfiguration extends WriteProperties {
         this.noShutdown = true
         this.configuration=project.configurations.osgiInstall;
         this.toBeStarted=new HashSet<>();
+        this.inputs.property('bnd', { getStartWith() })
 
     }
     /**
@@ -92,6 +93,10 @@ class WriteOsgiConfiguration extends WriteProperties {
         this.toBeStarted.add(id+"-"+version+".jar");
     }
 
+    HashSet getStartWith(){
+        return  this.toBeStarted
+    }
+
     /**
      * Actually writes the properties into the configuration, rest all the function of this class just setting the properties.
      * But this function takes those values and write it to configuration file as specified by buildDir property.
@@ -112,7 +117,9 @@ class WriteOsgiConfiguration extends WriteProperties {
             bundles+=","
         }
 
-
+        File configuration= new File(buildDir+"/configuration")
+        if(!configuration.exists())
+            configuration.mkdir()
         //writting the properties in config.iniproperty("eclipse.ignoreApp","true")
         outputFile(buildDir+"/configuration/config.ini")
         property(OSGI_NO_SHUTDOWN,this.noShutdown)
