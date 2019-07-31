@@ -28,8 +28,15 @@ setConfiguration{
 copyBundles{
     wrapper{
         bundle("jdom"){
-            bundleName="sahi"
-            vendor="sexy babe"
+            bundleName = "SimpleBundle"
+            symbolicName = "org.insilico.examples.simpleBundle"
+            version = 1.0
+            vendor = "Roman Schulte"
+            license = 'MIT License'
+            developer = 'Nikhil Ghodke'
+            contactAddress = "221b Baker St, London"
+            bnd('Manifest-Version':'2.3')
+            bnd('Bundle-Description': 'Give some description of your bundle here')
         }
     }
 }
