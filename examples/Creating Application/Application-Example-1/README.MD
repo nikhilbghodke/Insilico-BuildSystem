@@ -62,4 +62,4 @@ c)`buildApplication`<br>
 `buildApplication` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle buildApplication` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
 
  3)Also, `copyBundles` is of Custom task type `CopyBundles` and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
-So users are free to create as many task of thses Custom task types for build the application.
+So users are free to create as many task of these Custom task types for building the application.
