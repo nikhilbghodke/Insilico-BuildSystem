@@ -1,4 +1,4 @@
-# Created by https://www.gitignore.io/api/git,java,macos,linux,gradle,eclipse,windows,sublimetext,intellij+all,intellij+iml
+﻿# Created by https://www.gitignore.io/api/git,java,macos,linux,gradle,eclipse,windows,sublimetext,intellij+all,intellij+iml
 
 /src/main/proto/*
 build/*
@@ -169,6 +169,7 @@ modules.xml
 # Package Files #
 *.jar
 !examples/Creating Application/Application-Example-2/*.jar
+!examples/Creating Application/Application-Example-3/*.jar
 *.war
 *.ear
 *.zip
