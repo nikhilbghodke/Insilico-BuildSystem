@@ -168,6 +168,7 @@ modules.xml
 
 # Package Files #
 *.jar
+!examples/*.jar
 *.war
 *.ear
 *.zip
