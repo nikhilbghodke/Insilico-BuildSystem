@@ -57,11 +57,11 @@ The above code creates a new configuration named `Install` which can be used to 
 2) Another small point worth noticing is that in order to build a osgi application, you need to perform following steps
   a) Copy bundles into one directory, lets say `application` as an example
   b) Write configuration file  `application/configuration/config.ini`, where `application` is file where all the bundles are              already copied.
-the first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks
+the first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks<br>
 a)`copyBundles`<br>
 b)`setConfiguration`<br>
 c)`buildApplication`<br>
 `buildApplication` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle buildApplication` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
 <br>
 3) `copyBundles` is of Custom task type `CopyBundles`and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
-So users are free to create as many task of thses Custom task types for build the application.
+So users are free to create as many task of these Custom task types for building the application.
