@@ -1,5 +1,5 @@
 # Application Example
-This is an example for building an OSGi Application using the the `com.github.niikhilghodke.applicationBuilder`. When you build the application and run the application then its by default starts the a bundle with name `ActivatorBundle` and prints "Hello Everyone - Bundle is started!!!" within the framework.
+This is an example for building an OSGi Application using the the `com.github.niikhilghodke.applicationBuilder`. When you build the application and run the application (Instruction of which are given below), then a simple osgi application is started and then you are free to hack around things to create a mucher more productive application.
 
 ## How to build the project
 
@@ -56,10 +56,10 @@ The above code creates a new configuration named `Install` which can be used to 
   a) Copy bundles into one directory, lets say `application` as an example
   b) Write configuration file  `application/configuration/config.ini`, where `application` is file where all the bundles are              already copied.
 the first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks
-a)`copyBundles`<br>
+a)<br>`copyBundles`<br>
 b)`setConfiguration`<br>
 c)`buildApplication`<br>
 `buildApplication` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle buildApplication` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
-<br>
-3) `copyBundles` is of Custom task type `CopyBundles`and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
+
+ 3)Also, `copyBundles` is of Custom task type `CopyBundles` and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
 So users are free to create as many task of thses Custom task types for build the application.
