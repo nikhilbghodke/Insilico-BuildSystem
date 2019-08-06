@@ -5,7 +5,7 @@ This is an example for building an OSGi Application using the the `com.github.ni
 
 Inorder to build this example project follow these steps
 1) Open this example project on your computer.
-2) Open command prompt and type `gradle buildApplication`
+2) Open command prompt and type `./gradlew buildApplication`
 These two simple steps will build your OSGi Application. You can find the built OSGi bundle in `build/apps` directory.
 
 ## How to run the built Project
