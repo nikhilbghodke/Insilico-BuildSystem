@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.niikhilghodke.applicationBuilder" version "1.0.30"
+    id "com.github.niikhilghodke.applicationBuilder" version "1.1.1"
 }
 
 group 'org.insilico.examples'
@@ -20,6 +20,8 @@ dependencies {
     osgiInstall group: 'org.eclipse.platform', name: 'org.eclipse.osgi', version: '3.13.200'
     osgiInstall files("ActivatorBundle.jar")
     osgiInstall files("jdom.jar")
+    osgiInstall group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.1'
+
 }
 setConfiguration{
     startWith("ActivatorBundle")
@@ -35,8 +37,14 @@ copyBundles{
             license = 'MIT License'
             developer = 'Nikhil Ghodke'
             contactAddress = "221b Baker St, London"
-            bnd('Manifest-Version':'2.3')
-            bnd('Bundle-Description': 'Give some description of your bundle here')
+            // bnd('Manifest-Version','2.3')
+            // bnd('Bundle-Description','Give some description of your bundle here')
+        }
+
+        bundle("junit-jupiter-api","5.5.1"){
+            bundleName="Junit"
+            symbolicName="org.insilico.tester"
+            version="2.1"
         }
     }
 }

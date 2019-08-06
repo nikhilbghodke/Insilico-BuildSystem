@@ -90,7 +90,7 @@ public class WrapperExtension {
     public void  bundle(String id,String version,@DelegatesTo(ManifestHeaders) Closure configurator) {
         ManifestHeaders a= new ManifestHeaders()
         a.id=id;
-        a.version=version;
+        a.initialVersion=version;
         Closure cfg = configurator.clone()
         cfg.delegate = a;
         cfg.resolveStrategy = Closure.DELEGATE_FIRST
@@ -101,7 +101,7 @@ public class WrapperExtension {
         for(File file:set)
         {
             //println( file.name)
-            if(file.name==a.id+"-"+a.version+".jar")
+            if(file.name==a.id+"-"+a.initialVersion+".jar")
             {
                 found=true;
                 break;
@@ -133,13 +133,14 @@ public class WrapperExtension {
 
             //calculate the name of the jar which needs to be wrapped from it's id and version provided by user
              String jarName= a.id;
-            if(a.version!="")
-                jarName=jarName+"-"+a.version;
+            if(a.initialVersion!="")
+                jarName=jarName+"-"+a.initialVersion;
             jarName+=".jar";
 
             File[] set = task.configuration.resolvedConfiguration.getFiles().toArray()
             File requiredDependency;
             for(File file:set){
+
                 if(file.name==jarName)
                 {
                     requiredDependency=file;
@@ -155,13 +156,13 @@ public class WrapperExtension {
             Project project= this.task.getProject()
             Task tempCopy= project.task('copy'+jarName.substring(0,jarName.length()-4),type: Copy)
 
-            tempCopy.configure {
-                def zipFile = this.task.project.file(requiredDependency.getAbsolutePath())
-                def outputDir = this.task.project.file("build/unpacked/"+jarName.substring(0,jarName.length()-4))
+               tempCopy.configure {
+                   def zipFile = this.task.project.file(requiredDependency.getAbsolutePath())
+                   def outputDir = this.task.project.file("build/unpacked/" + jarName.substring(0, jarName.length() - 4))
 
-                from this.task.project.zipTree(zipFile)
-                into outputDir
-            }
+                   from this.task.project.zipTree(zipFile)
+                   into outputDir
+               }
 
             tempCopy.copy()
 

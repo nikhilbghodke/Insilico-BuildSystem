@@ -30,17 +30,17 @@ class ManifestHeaders {
     public Map<String,String> map;
 
     public ManifestHeaders() {
-        bundleName="";
-        symbolicName="";
-        vendor="";
-        developer="";
-        license=""
-        version=""
-        contactAddress=""
-        activator=""
-        requireBundle=""
-        id=""
-        initialVersion=""
+        this.bundleName="";
+        this.symbolicName="";
+        this.vendor="";
+        this.developer="";
+        this.license=""
+        this.version=""
+        this.contactAddress=""
+        this.activator=""
+        this.requireBundle=""
+        this.id=""
+        this.initialVersion=""
         map= new HashMap<>();
     }
 
