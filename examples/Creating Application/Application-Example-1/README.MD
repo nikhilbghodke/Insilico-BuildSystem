@@ -63,3 +63,42 @@ c)`buildApplication`<br>
 
  3)Also, `copyBundles` is of Custom task type `CopyBundles` and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
 So users are free to create as many task of these Custom task types for building the application.
+
+## Gogo Shell commnds
+If you are new to Gogo shell, here are few commands that can help u understand the framework a bit.
+
+1) ss (Ex: osgi> ss)
+This command can be used to list all the existing bundles in the OSGi environment. Bundle ID, State and Bundle symbolic name of all the bundles are shown.
+
+2) start <bundle-id> (Ex: osgi> start 16)
+This command can be used to start a particular bundle. If it can’t be started, reasons are printed on the console.
+
+3) stop <bundle-id> (Ex: osgi> stop 16)
+This command can be used to stop a particular bundle. If it can’t be stopped, reasons are printed on the console.
+
+4) b <bundle-id> (Ex: osgi> b 16)
+This can be used to print all the meta data related to this bundle. That includes imported packages, exported packages, host bundle, required bundles etc.
+
+5) diag <bundle-id> (Ex: osgi> diag 16)
+This can be used to diagnose a particular bundle. It will show you the list of missing imported packages.
+
+6) headers <bundle-id> (Ex: osgi> headers 16)
+This can be used to list the headers for a particular bundle.
+
+7) packages <package-name> (Ex: osgi> packages org.wso2.foo)
+This can be used to list all the bundles which use the given package.
+
+8) install file:<file-path> (Ex: osgi> install file:/home/temp/bundle1.jar)
+This can be used to install a bundle into running OSGi environment. After installing, use ‘start’ command to activate the bundle.
+
+9) uninstall <bundle-id> (Ex: osgi> uninstall 16)
+This can be used to remove a bundle from the OSGi environment.
+
+10) active (Ex: osgi> active)
+This can be used to list all active bundles in the current instance.
+
+11) refresh (Ex: osgi> refresh)
+This can be used to refresh the system. All the package resolutions are refreshed when this is executed. Always refresh the system after uninstalling a bundle as a best practice.
+
+
+### If you are still curious about the commands please visit this [website](https://felix.apache.org/documentation/subprojects/apache-felix-gogo.html)
