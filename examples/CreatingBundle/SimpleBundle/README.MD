@@ -8,7 +8,7 @@ The bundle built from this project does do anything upon starting or stoping it,
 
 Inorder to build this example project follow these steps
 1) Open this this example project on your computer.
-2) Open command prompt and type `gradle jar`
+2) Open command prompt and type `./gradlew jar`
 These two simple steps will build your OSGi bundle. You can find the built OSGi bundle in `build/libs` directory.
 
 ## Explaining the example project in detail
