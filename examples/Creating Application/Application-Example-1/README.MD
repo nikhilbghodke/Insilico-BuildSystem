@@ -21,14 +21,14 @@ The Plugin creates three tasks by Default Tasks named `copyBundles`,`setConfigur
 1)Also, `copyBundles` is of Custom task type `CopyBundles` and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
 So users are free to create as many task of these Custom task types for building the application.
 
-2) Another small point worth noticing is that in order to build a osgi application, you need to perform following steps<br>
+2)Another small point worth noticing is that in order to build a osgi application, you need to perform following steps<br>
   a) Copy bundles into one directory<br>
   b) Write configuration file  `configuration/config.ini` as per the requirements ( like which bundles needs to be included in application and which bundles should be started when the application starts).<br>
-the first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks<br>
+The first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks<br>
 a)`copyBundles`<br>
 b)`setConfiguration`<br>
 c)`build`<br>
-`build` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle build` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
+The`build` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle build` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
 
 
 
