@@ -25,6 +25,25 @@ class FeatureRequirePropertyExtension {
     /**Used to Store the document object to which the XML file is written*/
     private Document doc
 
+     enum ValidValues {
+        PERFECT("perfect"),
+        COMPATIBLE("compatible"),
+        GREATOREQUAL("greaterOrEqual")
+        ;
+        private final String value;
+        ValidValues(String value) {
+            this.value = value;
+        }
+        public String value() {return value;}
+
+        static public boolean isMember(String aName) {
+            ValidValues[] aValues = ValidValues.values();
+            for (ValidValues aValue : aValues)
+                if (aValue.value.equals(aName))
+                    return true;
+            return false;
+        }
+    }
     FeatureRequirePropertyExtension(Task task, Element rootElement, Document doc) {
         this.task = task
         this.rootElement = rootElement
@@ -147,19 +166,21 @@ class FeatureRequirePropertyExtension {
         void check() {
 
             if (this.match.length() != 0) {
-                String[] allowedValues = new String[4]
-                allowedValues[0] = "perfect"
-                allowedValues[1] = "equivalent"
-                allowedValues[2] = "compatible"
-                allowedValues[3] = "greaterOrEqual"
-                boolean found = false
-                for (String a : allowedValues) {
-                    if (a == this.match) {
-                        found = true
-                        break
-                    }
-                }
+//                String[] allowedValues = new String[4]
+//                allowedValues[0] = "perfect"
+//                allowedValues[1] = "equivalent"
+//                allowedValues[2] = "compatible"
+//                allowedValues[3] = "greaterOrEqual"
 
+//                for (String a : allowedValues) {
+//                    if (a == this.match) {
+//                        found = true
+//                        break
+//                    }
+//                }
+
+                boolean found = false
+                found=ValidValues.isMember(this.match)
                 if (found == false) {
                     throw new Exception(this.match + " is not a permitted value.\nPermitted values are \n1) perfect\n2)equivalent \n3)compatible" +
                             "\n4)greaterOrEqual")
@@ -189,6 +210,8 @@ class FeatureRequirePropertyExtension {
                 allowedValues[1] = "equivalent"
                 allowedValues[2] = "compatible"
                 allowedValues[3] = "greaterOrEqual"
+
+
                 boolean found = false
                 for (String a : allowedValues) {
                     if (a == this.match) {
