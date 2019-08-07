@@ -9,7 +9,7 @@ archive containing `feature.xml` file which describes the feature.
 
 Inorder to build this example project follow these steps
 1) Open this this example project on your computer.
-2) Open command prompt and type `gradle jar`
+2) Open command prompt and type `./gradlew jar`
 These two simple steps will build your Eclipse feature. You can find the built OSGi bundle in `build/libs` directory.
 Also just the `feature.xml` in `build/features` directory. 
 
