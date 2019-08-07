@@ -12,17 +12,8 @@ dependencies {
     compile group:'org.osgi',name:'org.osgi.framework', version:'1.8.0'
 }
 
-//Setting a different Sourceset
-sourceSets {
-    main {
-        java {
-            srcDir 'src/any'
-            }
-        }
-}
 
 jar{
-            from sourceSets.main.output
             bundle{
                 bundleName = "SimpleBundle"
                 symbolicName = "org.insilico.examples.simpleExample"
