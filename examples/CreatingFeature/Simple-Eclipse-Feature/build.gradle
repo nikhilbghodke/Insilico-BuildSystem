@@ -1,69 +1,66 @@
 plugins {
-    id "com.github.niikhilghodke.featureBuilder" version "1.0.28"
+    id "com.github.niikhilghodke.featureBuilder" version "1.1.4"
 }
 
 group 'org.insilico'
 version '1.0-SNAPSHOT'
 
 
-        jar{
+jar{
+    feature{
 
-        feature{
-            
-                label="this is beatutiful"
+        label="this is beatutiful"
 
-            description{
-                url="httpsasss"
-                context="nikhil is gooodss"
+        description{
+            url="https://www.decription.com"
+            context="nikhil is gooodss"
+        }
+
+        copyright{
+            url="https://www.copyright.com/"
+            context="copy is good"
+        }
+
+        license{
+            url="https://www.license.com/"
+            context="license"
+        }
+
+
+        includes("org.eclipse.egit.mylyn","1.2.2"){
+            os="linux,macosx"
+            ws="wpf"
+            arch="x86_64"
+            nl="ar"
+
+        }
+        includes("org.eclipse.e4.rcp.source","1.2.2"){
+            os="linux,macosx"
+            ws="wpf"
+            arch="x86_64"
+            nl="ar"
+
+        }
+
+        plugin("org.eclipse.egit.mylyn","1.2.2"){
+            os="linux,macosx"
+            ws="wpf"
+            arch="x86_64"
+            nl="ar"
+
+        }
+
+        require{
+            importPlugin("org.eclipse.egit.mylyn"){
+                version="1.2.2"
+                match="perfect"
             }
-
-            copyright{
-                url="copy"
-                context="copy is good"
-            }
-
-            license{
-                url="license"
-                context="license"
-            }
-
-
-            includes("org.eclipse.egit.mylyn","1.2.2"){
-                os="linux,macosx"
-                ws="wpf"
-                arch="x86_64"
-                nl="ar"
-
-            }
-            includes("org.eclipse.e4.rcp.source","1.2.2"){
-                os="linux,macosx"
-                ws="wpf"
-                arch="x86_64"
-                nl="ar"
-
-            }
-
-            plugin("org.eclipse.egit.mylyn","1.2.2"){
-                os="linux,macosx"
-                ws="wpf"
-                arch="x86_64"
-                nl="ar"
-
-            }
-
-require{
-                importPlugin("org.eclipse.egit.mylyn"){
-                    version="1.2.2"
-                    match="perfect"
-                }
-                importFeature("org.eclipse.something"){
-                    version="1.2.3"
-                    match="perfect"
-                    patch=true
-                }
-               
+            importFeature("org.eclipse.something"){
+                version="1.2.3"
+                match="perfect"
+                patch=true
             }
 
         }
+    }
 }
-

@@ -359,9 +359,8 @@ class FeatureExtension {
             description.context = "[Enter Feature Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if (this.description.url.length() == 0)
-            description.url = "http://www.example.com/description"
-
+        if (this.description.url == null)
+            description.setUrl("http://www.example.com/description")
 
         // Create Description Element
         Element description = doc.createElement("description")
@@ -369,7 +368,7 @@ class FeatureExtension {
         featureRootElement.appendChild(description)
 
         Attr descriptionUrl = doc.createAttribute("url")
-        descriptionUrl.setValue(this.description.url)
+        descriptionUrl.setValue(this.description.url.toString())
         description.setAttributeNode(descriptionUrl)
 
 
@@ -378,15 +377,15 @@ class FeatureExtension {
             copyright.context = "[Enter Copyright Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if (this.copyright.url.length() == 0)
-            description.url = "http://www.example.com/copyright"
+        if (this.copyright.url == null)
+            copyright.setUrl("http://www.example.com/copyright")
 
         Element copyright = doc.createElement("copyright")
         copyright.appendChild(doc.createTextNode(this.copyright.context))
         featureRootElement.appendChild(copyright)
 
         Attr copyrightUrl = doc.createAttribute("url")
-        copyrightUrl.setValue(this.copyright.url)
+        copyrightUrl.setValue(this.copyright.url.toString())
         copyright.setAttributeNode(copyrightUrl)
 
         //if context is not set, it set to default value as per in eclipse IDE
@@ -394,16 +393,15 @@ class FeatureExtension {
             license.context = "[Enter License Description here.]"
 
         //if url is not set, it set to default value as per in eclipse IDE
-        if (this.license.url.length() == 0)
-            license.url = "http://www.example.com/copyright"
-
+        if (this.license.url == null)
+            license.setUrl("http://www.example.com/license")
 
         Element license = doc.createElement("license")
         license.appendChild(doc.createTextNode(this.license.context))
         featureRootElement.appendChild(license)
 
         Attr licenseUrl = doc.createAttribute("url")
-        licenseUrl.setValue(this.license.url)
+        licenseUrl.setValue(this.license.url.toString())
         license.setAttributeNode(licenseUrl)
 
 

@@ -13,17 +13,17 @@ import org.gradle.api.tasks.Optional
  * @since @since 2019-07-17
  */
 class FeaturePropertyExtension {
-    public String url="";
+    public URL url;
     public String context="";
 
     @Input
     @Optional
     String getUrl() {
-        return url
+        return url.toString()
     }
 
     void setUrl(String url) {
-        this.url = url
+        this.url = new URL(url)
     }
 
     @Input
