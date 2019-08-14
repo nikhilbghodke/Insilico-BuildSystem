@@ -40,41 +40,23 @@ public class BundleBuildFunctionalTest {
     @Test
     public void testBuildTask() throws IOException {
         writeFile(settingsFile, "rootProject.name = 'Inilico-app'");
-        String vendor="Roman Schutle";
+
+        //properties listed here are used to check whether these values were properly written or not
+        String vendor="Roman";
         String bundleName="SimpleBundle";
-        String symbolicName="org.insilico.examples.simpleExample";
+        String symbolicName="org.insilico.examples.simpleBundle";
         String version="1.0";
         String license="MIT License";
         String developer="Nikhil Ghodke";
         String contactAddress="221b Baker St, London";
-
-
-        String buildFileContent = "plugins {\n" +
-                "  id \"com.github.niikhilghodke.bundleBuilder\" version \"1.0.6\"\n" +
-                " id 'java'"+
-                "}\n"+
-                "apply plugin: 'biz.aQute.bnd.builder'\n";
-        buildFileContent+="jar{\n" +
-                "           from sourceSets.main.output\n" +
-                "            bundle{\n" +
-                "                bundleName ='"+ bundleName +"'\n" +
-                "                symbolicName =' "+symbolicName+"'\n" +
-                "                version ='"+version+"'\n" +
-                "                vendor = '"+vendor+"'\n" +
-                "                license = '"+license+"'\n" +
-                "                developer ='"+developer+"'\n" +
-                "                contactAddress =' "+contactAddress+"'\n" +
-                "             }\n" +
-                "         }";
-
         System.out.println();
-        String st;
-        String ans="";
-        while ((st = build.readLine()) != null)
-            ans=ans+st;
+        BufferedReader ab = new BufferedReader(new FileReader("src/test/resources/BundleFunctionalTestbuild.gradle"));
+        String buildFileContent="";
 
-        System.out.println(ans);
-
+        String strCurrentLine="";
+        while ((strCurrentLine = ab.readLine()) != null) {
+            buildFileContent=buildFileContent+"\n"+strCurrentLine;
+        }
         writeFile(buildFile,buildFileContent);
 
         BuildResult result = GradleRunner.create()

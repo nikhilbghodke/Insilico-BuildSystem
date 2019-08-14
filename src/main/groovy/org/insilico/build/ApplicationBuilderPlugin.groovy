@@ -13,6 +13,9 @@ package org.insilico.build
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.plugins.JavaPlugin
 
 
 class ApplicationBuilderPlugin implements Plugin<Project>{
@@ -22,13 +25,13 @@ class ApplicationBuilderPlugin implements Plugin<Project>{
      * on these two tasks.
      * @param project Project object passed by Gradle
      */
-    void apply (Project project)
+    void apply (Project project) throws Exception
     {
-        //create a new configuration for dependencies
-        project.configurations.create("osgiInstall")
+        //create a new configuration for dependencie
 
-        project.plugins.apply(org.insilico.build.BasePlugin)
-        project.task("buildApplication"){
+        project.configurations.create("osgiInstall")
+        Task b=project.task('buildApplication')
+        b.configure{
             dependsOn 'setConfiguration'
             dependsOn 'copyBundles'
         }

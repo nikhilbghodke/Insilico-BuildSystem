@@ -9,10 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.BufferUnderflowException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -24,9 +22,11 @@ import static org.junit.Assert.assertEquals;
 
 public class ApplicationBuildFunctionalTest {
 
-    @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder();
+    @Rule
+    public final TemporaryFolder testProjectDir = new TemporaryFolder();
     private File settingsFile;
     private File buildFile;
+
 
     @Before
     public void setup() throws IOException {
@@ -35,13 +35,19 @@ public class ApplicationBuildFunctionalTest {
     }
 
     @Test
-    public void testBuildTask() throws IOException {
+    public void testBuildTask() throws Exception {
         writeFile(settingsFile, "rootProject.name = 'Inilico-app'");
-        String buildFileContent = "plugins {\n" +
-                "  id \"com.github.niikhilghodke.applicationBuilder\" version \"1.0.6\"\n" +
-                "}";
-        writeFile(buildFile, buildFileContent);
+        BufferedReader a = new BufferedReader(new FileReader("README.md"));
+        System.out.println(new File("README.md").getAbsoluteFile());
+        BufferedReader ab = new BufferedReader(new FileReader("src/test/resources/ApplicationFunctionalTestbuild.gradle"));
+        String buildFileContent="";
 
+        String strCurrentLine="";
+        while ((strCurrentLine = ab.readLine()) != null) {
+            buildFileContent=buildFileContent+"\n"+strCurrentLine;
+        }
+        //throw new Exception(ans);
+        writeFile(buildFile,buildFileContent);
         BuildResult result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withPluginClasspath()

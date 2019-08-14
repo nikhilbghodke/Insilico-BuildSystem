@@ -1,0 +1,18 @@
+plugins {
+    id "com.github.niikhilghodke.bundleBuilder" version "1.0.27"
+    id 'java'
+}
+apply plugin: 'biz.aQute.bnd.builder'
+
+    jar{
+            from sourceSets.main.output
+            bundle{
+                bundleName = "SimpleBundle"
+                symbolicName = "org.insilico.examples.simpleBundle"
+                version = 1.0
+                vendor = "Roman"
+                license = 'MIT License'
+                developer = 'Nikhil Ghodke'
+                contactAddress = "221b Baker St, London"
+            }
+        }

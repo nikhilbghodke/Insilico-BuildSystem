@@ -16,7 +16,7 @@ dependencies {
 jar{
             bundle{
                 bundleName = "SimpleBundle"
-                symbolicName = "org.insilico.examples.simpleExample"
+                symbolicName = "org.insilico.examples.simpleExample;singleton:=true"
                 version = 1.2
                 vendor = "Roman Schulte"
                 license = 'MIT License'
