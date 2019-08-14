@@ -1,13 +1,13 @@
 # Simple-Bundle Example
 
 This is an example project about how to build an OSGi bundle using the developed plugin.
-The bundle built from this project does do anything upon starting or stoping it, this project just serves an example, so that the user get familiar to the plugin.
+The bundle built from this project does do anything upon starting or stopping it, this project just serves an example, so that the user get familiar to the plugin.
 
 
 ## How to build the project
 
 Inorder to build this example project follow these steps
-1) Open this this example project on your computer.
+1) Open this example project on your computer.
 2) Open command prompt and type `./gradlew jar`
 These two simple steps will build your OSGi bundle. You can find the built OSGi bundle in `build/libs` directory.
 
@@ -36,4 +36,4 @@ jar{
 4) `vendor` :- It is used to set `Bundle-Vendor` header inside Manifest file of OSGi bundle.
 5) `license` :- It is used to set `Bundle-License` header inside Manifest file of OSGi bundle.
 6) `developer` :- It is used to set `Bundle-Developer` header inside Manifest file of OSGi bundle.
-7) `conatactAddress` :- It is used to set `Bundle-ContactAddress` header inside Manifest file of OSGi bundle.
+7) `contactAddress` :- It is used to set `Bundle-ContactAddress` header inside Manifest file of OSGi bundle.

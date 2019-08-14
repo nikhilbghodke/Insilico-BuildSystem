@@ -1,5 +1,5 @@
 # Application Example
-This is an example for building an OSGi Application using the the `com.github.niikhilghodke.applicationBuilder`. When you build the application and run the application (Instruction of which are given below), then a simple osgi application is started and then you are free to hack around things to create a mucher more productive application.
+This is an example for building an OSGi Application using the `com.github.niikhilghodke.applicationBuilder`. When you build the application and run the application (Instruction of which are given below), then a simple osgi application is started and then you are free to hack around things to create a mucher more productive application.
 
 ## How to build the project
 
@@ -12,28 +12,28 @@ These two simple steps will build your OSGi Application. You can find the built 
 1) Open the the `build/app` within this project.
 2) Open Command Prompt within the `build/app` directory.
 3) Now type `java -jar org.eclipse.osgi-3.13.200.jar -console`
-And within three steps you have a Osgi Application running.
+And within three steps you have an Osgi Application running.
 
 ## Explaining the example project in detail
 
-The Plugin creates three tasks by Default Tasks named `copyBundles`,`setConfiguration` and `build`. `build` task just `dependsOn` `copyBundles` and `setConfiguration` and does nothing different, so that user has to just run one task to build the application.
+The Plugin creates three tasks by Default Tasks named `copyBundles`,`setConfiguration` and `build`. `build` task `dependsOn` `copyBundles` and `setConfiguration` and does nothing different, so that user has to just run one task to build the application.
 
 1)Also, `copyBundles` is of Custom task type `CopyBundles` and `setConfiguration` is of Custom task type `WriteEquinoxConfgiration`.
-So users are free to create as many task of these Custom task types for building the application.
+So users are free to create as many tasks of these Custom task types for building the application.
 
-2)Another small point worth noticing is that in order to build a osgi application, you need to perform following steps<br>
+2)Another small point worth noticing is that in order to build an osgi application, you need to perform following steps<br>
   a) Copy bundles into one directory<br>
   b) Write configuration file  `configuration/config.ini` as per the requirements ( like which bundles needs to be included in application and which bundles should be started when the application starts).<br>
-The first task of copying bundles is accomplished by `copyBundle` task and second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks<br>
+The first task of copying bundles is accomplished by `copyBundle` task and the second task is completed by `setConfiguration` task. The Plugin as previously explained creates three tasks<br>
 a)`copyBundles`<br>
 b)`setConfiguration`<br>
 c)`build`<br>
-The`build` tasks just dependes on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle build` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
+The`build` tasks just depends on `copyBundle` task and `setConfiguration` task, so that does not have to run two tasks to build the application instead he could just run one command `gradle build` and his application is ready. This also means that you can build your application by running two commands `gradle copyBundles` and then run `gradle setConfiguration` and still get the same application.
 
 
 
-## Gogo Shell commnds
-If you are new to Gogo shell, here are few commands that can help u understand the framework a bit.
+## Gogo Shell commands
+If you are new to Gogo shell, here are a few commands that can help u understand the framework a bit.
 
 1) ss (Ex: osgi> ss)
 This command can be used to list all the existing bundles in the OSGi environment. Bundle ID, State and Bundle symbolic name of all the bundles are shown.
@@ -45,7 +45,7 @@ This command can be used to start a particular bundle. If it can’t be started,
 This command can be used to stop a particular bundle. If it can’t be stopped, reasons are printed on the console.
 
 4) b <bundle-id> (Ex: osgi> b 16)
-This can be used to print all the meta data related to this bundle. That includes imported packages, exported packages, host bundle, required bundles etc.
+This can be used to print all the metadata related to this bundle. That includes imported packages, exported packages, host bundle, required bundles etc.
 
 5) diag <bundle-id> (Ex: osgi> diag 16)
 This can be used to diagnose a particular bundle. It will show you the list of missing imported packages.
@@ -73,3 +73,5 @@ This command is used to exit the framework
 
 
 ### If you are still curious about the commands please visit this [website](https://felix.apache.org/documentation/subprojects/apache-felix-gogo.html)
+
+

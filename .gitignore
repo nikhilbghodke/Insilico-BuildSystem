@@ -168,8 +168,6 @@ modules.xml
 
 # Package Files #
 *.jar
-!examples/Creating Application/Application-Example-2/*.jar
-!examples/Creating Application/Application-Example-3/*.jar
 *.war
 *.ear
 *.zip
