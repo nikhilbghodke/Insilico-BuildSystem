@@ -30,6 +30,7 @@ class ApplicationBuilderPlugin implements Plugin<Project>{
         //create a new configuration for dependencie
 
         project.configurations.create("osgiInstall")
+        //project.configurations.runtime.extendsFrom(project.configurations.osgiInstall)
         Task b=project.task('buildApplication')
         b.configure{
             dependsOn 'setConfiguration'

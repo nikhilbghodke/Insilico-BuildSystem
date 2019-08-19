@@ -1,5 +1,6 @@
 plugins {
-    id "com.github.niikhilghodke.applicationBuilder" version "1.1.16"
+    id 'java'
+    id "com.github.niikhilghodke.applicationBuilder" version "1.1.19"
 }
 
 group 'org.insilico.examples'

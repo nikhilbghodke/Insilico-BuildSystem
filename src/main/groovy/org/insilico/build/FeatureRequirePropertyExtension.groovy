@@ -31,6 +31,7 @@ class FeatureRequirePropertyExtension {
         GREATOREQUAL("greaterOrEqual")
         ;
         private final String value;
+
         ValidValues(String value) {
             this.value = value;
         }
